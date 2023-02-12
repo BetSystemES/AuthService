@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\auth_service.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthService.BusinessLogic\AuthService.BusinessLogic.csproj" />
+    <ProjectReference Include="..\AuthService.DataAccess\AuthService.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
