@@ -11,8 +11,6 @@
         public User()
         {
             UserRole = new List<UserRole>();
-            Claims = new List<UserClaim>();
-            RefreshTokens = new List<UserRefreshToken>();
         }
 
         /// <summary>
@@ -86,21 +84,5 @@
         /// The user role.
         /// </value>
         public List<UserRole> UserRole { get; set; }
-
-        /// <summary>
-        /// Gets or sets the claims.
-        /// </summary>
-        /// <value>
-        /// The claims.
-        /// </value>
-        public List<UserClaim> Claims { get; set; }
-
-        /// <summary>
-        /// Gets or sets the refresh tokens.
-        /// </summary>
-        /// <value>
-        /// The refresh tokens.
-        /// </value>
-        public List<UserRefreshToken> RefreshTokens { get; set; }
     }
 }
