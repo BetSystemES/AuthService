@@ -16,7 +16,7 @@ service AuthService {
     returns (GetUserResponse);
   rpc CreateUser(CreateUserRequest)
     returns (CreateUserResponse);
-  rpc DeleteUser.DeleteUserRequest)
+  rpc DeleteUser(DeleteUserRequest)
     returns (DeleteUserResponse);
 }
 
