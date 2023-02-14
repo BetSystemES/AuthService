@@ -37,6 +37,12 @@ namespace AuthService.DataAccess
         {
             services.AddDbContextPool<AuthDbContext>(options);
 
+            services.AddTransient<DbContext>(serviceProvider => serviceProvider.GetRequiredService<AuthDbContext>())
+                    .AddScopedDbSet<UserRefreshToken>()
+                    .AddScopedDbSet<UserRole>()
+                    .AddScopedDbSet<User>()
+                    .AddScopedDbSet<Role>();
+
             return services;
         }
 
