@@ -1,6 +1,6 @@
 ﻿using AuthService.BusinessLogic.Models;
 
-namespace AuthService.BusinessLogic.Contracts.Repositories
+namespace AuthService.BusinessLogic.Contracts.DataAccess.Repositories
 {
     /// <summary>
     /// Users repository

@@ -1,4 +1,4 @@
-﻿using AuthService.BusinessLogic.Contracts.Repositories;
+﻿using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
 using AuthService.BusinessLogic.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +8,7 @@ namespace AuthService.DataAccess.Repositories
     /// Refresh token repository implementation.
     /// </summary>
     /// <seealso cref="AuthService.DataAccess.Repositories.SqlRepository&lt;AuthService.BusinessLogic.Models.UserRefreshToken&gt;" />
-    /// <seealso cref="AuthService.BusinessLogic.Contracts.Repositories.IRefreshTokenRepository" />
+    /// <seealso cref="BusinessLogic.Contracts.DataAccess.Repositories.IRefreshTokenRepository" />
     public class RefreshTokenRepository : SqlRepository<UserRefreshToken>, IRefreshTokenRepository
     {
         /// <summary>

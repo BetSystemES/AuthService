@@ -1,6 +1,6 @@
 ﻿using AuthService.BusinessLogic.Models;
 
-namespace AuthService.BusinessLogic.Contracts.Providers
+namespace AuthService.BusinessLogic.Contracts.DataAccess.Providers
 {
     /// <summary>
     /// Role provider

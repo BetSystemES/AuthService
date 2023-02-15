@@ -1,4 +1,5 @@
-﻿using AuthService.BusinessLogic.Contracts.Providers;
+﻿using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
+using AuthService.BusinessLogic.Contracts.Providers;
 using AuthService.BusinessLogic.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,7 @@ namespace AuthService.DataAccess.Providers
     /// <summary>
     /// Refresh token provider.
     /// </summary>
-    /// <seealso cref="AuthService.BusinessLogic.Contracts.Providers.IRefreshTokenProvider" />
+    /// <seealso cref="BusinessLogic.Contracts.DataAccess.Providers.IRefreshTokenProvider" />
     public class RefreshTokenProvider : IRefreshTokenProvider
     {
         private readonly DbSet<UserRefreshToken> _entities;

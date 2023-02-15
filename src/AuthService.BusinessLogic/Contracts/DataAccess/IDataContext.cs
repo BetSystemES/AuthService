@@ -1,4 +1,4 @@
-﻿namespace AuthService.BusinessLogic.Contracts
+﻿namespace AuthService.BusinessLogic.Contracts.DataAccess
 {
     /// <summary>
     ///   Data context provider

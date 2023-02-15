@@ -1,4 +1,4 @@
-﻿using AuthService.BusinessLogic.Contracts.Providers;
+﻿using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
 using AuthService.BusinessLogic.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +7,7 @@ namespace AuthService.DataAccess.Providers
     /// <summary>
     /// User provider implementation
     /// </summary>
-    /// <seealso cref="AuthService.BusinessLogic.Contracts.Providers.IUserProvider" />
+    /// <seealso cref="BusinessLogic.Contracts.DataAccess.Providers.IUserProvider" />
     public class UserProvider : IUserProvider
     {
         private readonly DbSet<User> _entities;

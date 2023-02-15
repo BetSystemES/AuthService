@@ -1,11 +1,11 @@
-﻿using AuthService.BusinessLogic.Contracts;
+﻿using AuthService.BusinessLogic.Contracts.DataAccess;
 
 namespace AuthService.DataAccess
 {
     /// <summary>
     /// Auth data context.
     /// </summary>
-    /// <seealso cref="AuthService.BusinessLogic.Contracts.IDataContext" />
+    /// <seealso cref="BusinessLogic.Contracts.DataAccess.IDataContext" />
     public class AuthDataContext : IDataContext
     {
         private readonly AuthDbContext _authDbContext;

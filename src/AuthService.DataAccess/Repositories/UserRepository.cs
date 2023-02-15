@@ -1,4 +1,4 @@
-﻿using AuthService.BusinessLogic.Contracts.Repositories;
+﻿using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
 using AuthService.BusinessLogic.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +8,7 @@ namespace AuthService.DataAccess.Repositories
     /// User repository implementation.
     /// </summary>
     /// <seealso cref="AuthService.DataAccess.Repositories.SqlRepository&lt;AuthService.BusinessLogic.Models.User&gt;" />
-    /// <seealso cref="AuthService.BusinessLogic.Contracts.Repositories.IUserRepository" />
+    /// <seealso cref="BusinessLogic.Contracts.DataAccess.Repositories.IUserRepository" />
     public class UserRepository : SqlRepository<User>, IUserRepository
     {
         /// <summary>

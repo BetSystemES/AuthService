@@ -1,4 +1,4 @@
-﻿namespace AuthService.BusinessLogic.Contracts.Repositories
+﻿namespace AuthService.BusinessLogic.Contracts.DataAccess.Repositories
 {
     public interface IDataRepository<in TEntity>
     {
