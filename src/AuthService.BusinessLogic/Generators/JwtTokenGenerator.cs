@@ -1,6 +1,7 @@
 ﻿using AuthService.BusinessLogic.Contracts.Generators;
 using AuthService.BusinessLogic.Contracts.Worker;
 using AuthService.BusinessLogic.Models;
+using Microsoft.Extensions.Options;
 
 namespace AuthService.BusinessLogic.Generators
 {
@@ -9,9 +10,9 @@ namespace AuthService.BusinessLogic.Generators
         private readonly JWTConfig _jWTConfig;
         private readonly IJWTWorker _jWTWorker;
 
-        public JWTTokenGenerator(JWTConfig jWTConfig, IJWTWorker jWTWorker)
+        public JWTTokenGenerator(IOptions<JWTConfig> jWTConfig, IJWTWorker jWTWorker)
         {
-            _jWTConfig = jWTConfig;
+            _jWTConfig = jWTConfig.Value;
             _jWTWorker = jWTWorker;
         }
 

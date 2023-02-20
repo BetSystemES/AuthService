@@ -1,4 +1,10 @@
-﻿using AuthService.BusinessLogic.Models;
+﻿using AuthService.BusinessLogic.Contracts.DataAccess;
+using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
+using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
+using AuthService.BusinessLogic.Contracts.Generators;
+using AuthService.BusinessLogic.Models;
+using AuthService.DataAccess.Providers;
+using AuthService.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +19,11 @@ namespace AuthService.DataAccess
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddProviders(this IServiceCollection services)
         {
+            services.AddScoped<IRefreshTokenProvider, RefreshTokenProvider>()
+                .AddScoped<IRoleProvider, RoleProvider>()
+                .AddScoped<IUserProvider, UserProvider>()
+                .AddScoped<IUserRolesProvider, UserRolesProvider>();
+
             return services;
         }
 
@@ -23,6 +34,9 @@ namespace AuthService.DataAccess
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>()
+                .AddScoped<IUserRepository, UserRepository>();
+
             return services;
         }
 
@@ -37,6 +51,7 @@ namespace AuthService.DataAccess
         {
             services.AddDbContextPool<AuthDbContext>(options);
 
+            services.AddScoped<IDataContext, AuthDataContext>();
             services.AddTransient<DbContext>(serviceProvider => serviceProvider.GetRequiredService<AuthDbContext>())
                     .AddScopedDbSet<UserRefreshToken>()
                     .AddScopedDbSet<UserRole>()
@@ -55,6 +70,9 @@ namespace AuthService.DataAccess
         private static IServiceCollection AddScopedDbSet<TEntity>(this IServiceCollection services)
             where TEntity : class
         {
+            services.AddScoped<DbSet<TEntity>>(serviceProvider =>
+                serviceProvider.GetRequiredService<AuthDbContext>().Set<TEntity>());
+
             return services;
         }
     }

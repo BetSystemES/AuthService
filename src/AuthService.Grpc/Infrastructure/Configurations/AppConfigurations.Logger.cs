@@ -14,8 +14,9 @@ namespace AuthService.Grpc.Infrastructure.Configurations
         {
             appBuilder.Host.UseSerilog((_, serviceProvider, config) =>
             {
+                config = config.WriteTo.Console();
                 config = appBuilder.Environment.IsDevelopment()
-                    ? config.MinimumLevel.Verbose()
+                    ? config.MinimumLevel.Debug()
                     : config.MinimumLevel.Warning();
             });
 

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using AuthService.BusinessLogic.Contracts.Worker;
 using AuthService.BusinessLogic.Models;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.BusinessLogic.Workers
@@ -21,9 +22,9 @@ namespace AuthService.BusinessLogic.Workers
         /// Initializes a new instance of the <see cref="JWTWorker"/> class.
         /// </summary>
         /// <param name="jWTConfig">The jwt configuration.</param>
-        public JWTWorker(JWTConfig jWTConfig)
+        public JWTWorker(IOptions<JWTConfig> jWTConfig)
         {
-            _jWTConfig = jWTConfig;
+            _jWTConfig = jWTConfig.Value;
         }
 
         public string? GenerageToken(User user, DateTime issuedAtUtc, TimeSpan ExpiresDelayInMinutes, CancellationToken cancellationToken)
