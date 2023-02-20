@@ -37,7 +37,6 @@ namespace AuthService.Grpc.Infrastructure.Configurations
                 .AddScoped<IJwtTokenGenerator, JWTTokenGenerator>()
                 .AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>()
                 .AddScoped<IHashProvider, HashProvider>()
-                .AddScoped<IJWTWorker, JWTWorker>()
                 .AddScoped<IDateTimeProvider, DateTimeProvider>();
 
             return services;
