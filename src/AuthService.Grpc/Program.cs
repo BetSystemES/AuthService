@@ -1,14 +1,14 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using AuthService.BusinessLogic;
 
-// Additional configuration is required to successfully run gRPC on macOS.
-// For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
+var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var configuration = builder.Configuration;
+
 builder.Services.AddGrpc();
 
-var app = builder.Build();
+builder.Services.Configure<JWTConfig>(
+    builder.Configuration.GetSection("JWTConfig"));
 
-// Configure the HTTP request pipeline.
-app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+var app = builder.Build();
 
 app.Run();
