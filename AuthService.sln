@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.BusinessLogic", "src\AuthService.BusinessLogic\AuthService.BusinessLogic.csproj", "{9FCDF7AF-3932-4DEC-A87C-B61E071D5C05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.BusinessLogic", "src\AuthService.BusinessLogic\AuthService.BusinessLogic.csproj", "{9FCDF7AF-3932-4DEC-A87C-B61E071D5C05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.DataAccess", "src\AuthService.DataAccess\AuthService.DataAccess.csproj", "{0F596BE1-878A-4FC7-973A-6134650BDD44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.DataAccess", "src\AuthService.DataAccess\AuthService.DataAccess.csproj", "{0F596BE1-878A-4FC7-973A-6134650BDD44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Grpc", "src\AuthService.Grpc\AuthService.Grpc.csproj", "{22C26F1E-B1A4-444B-B9A1-876CAD27D1F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Grpc", "src\AuthService.Grpc\AuthService.Grpc.csproj", "{22C26F1E-B1A4-444B-B9A1-876CAD27D1F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.DatabaseMigrator", "src\AuthService.DatabaseMigrator\AuthService.DatabaseMigrator.csproj", "{B2926001-5AB8-4BF8-873E-4359BBFCC2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{22C26F1E-B1A4-444B-B9A1-876CAD27D1F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22C26F1E-B1A4-444B-B9A1-876CAD27D1F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22C26F1E-B1A4-444B-B9A1-876CAD27D1F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2926001-5AB8-4BF8-873E-4359BBFCC2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2926001-5AB8-4BF8-873E-4359BBFCC2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2926001-5AB8-4BF8-873E-4359BBFCC2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2926001-5AB8-4BF8-873E-4359BBFCC2E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
