@@ -2,7 +2,8 @@
 using AuthService.Grpc.Infrastructure.Configurations;
 
 var builder = WebApplication.CreateBuilder(args)
-    .AddAppSettings();
+    .AddAppSettings()
+    .AddSerilogLogger();
 
 var configuration = builder.Configuration;
 
