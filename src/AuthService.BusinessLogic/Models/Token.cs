@@ -27,7 +27,7 @@
         /// <value>
         /// The type of the token.
         /// </value>
-        public string? TokenType { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// Gets the issued at UTC.

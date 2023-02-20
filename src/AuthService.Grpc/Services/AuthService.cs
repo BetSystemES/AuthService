@@ -29,9 +29,14 @@ namespace AuthService.Grpc.Services
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
         /// <returns>AuthenticateResponse</returns>
-        public override Task<AuthenticateResponse> Authenticate(AuthenticateRequest request, ServerCallContext context)
+        public override async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request, ServerCallContext context)
         {
-            return base.Authenticate(request, context);
+            var cancellationToken = context.CancellationToken;
+            var token = await _authService.Authenticate(request.Email, request.Password, cancellationToken);
+
+            _logger.LogTrace("Authentication is completed. Auth token will expire: {Date}", token.JwtTokenExpiresAtUtc);
+
+            return new AuthenticateResponse { Token = _mapper.Map<Token>(token) };
         }
 
         /// <summary>
@@ -40,9 +45,14 @@ namespace AuthService.Grpc.Services
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
         /// <returns>RefreshResponse</returns>
-        public override Task<RefreshResponse> Refresh(RefreshRequest request, ServerCallContext context)
+        public override async Task<RefreshResponse> Refresh(RefreshRequest request, ServerCallContext context)
         {
-            return base.Refresh(request, context);
+            var cancellationToken = context.CancellationToken;
+            var token = await _authService.Authenticate(request.RefreshToken, cancellationToken);
+
+            _logger.LogTrace("Refresh token is completed. Auth token will expire: {Date}", token.JwtTokenExpiresAtUtc);
+
+            return new RefreshResponse { Token = _mapper.Map<Token>(token) };
         }
 
         /// <summary>

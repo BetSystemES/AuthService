@@ -7,6 +7,7 @@ using AuthService.BusinessLogic.Generators;
 using AuthService.BusinessLogic.Providers;
 using AuthService.BusinessLogic.Services;
 using AuthService.BusinessLogic.Workers;
+using AuthService.Grpc.Infrastructure.Mappings;
 using BusinessLogic = AuthService.BusinessLogic;
 
 namespace AuthService.Grpc.Infrastructure.Configurations
@@ -21,7 +22,7 @@ namespace AuthService.Grpc.Infrastructure.Configurations
         /// <returns> IServiceCollection </returns>
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Program).Assembly);
+            services.AddAutoMapper(typeof(AuthServiceProfile).Assembly);
 
             return services;
         }

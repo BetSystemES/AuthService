@@ -61,7 +61,7 @@ namespace AuthService.BusinessLogic.Services
             {
                 throw new ApplicationException("Invalid password.");
             }
-
+            // todo: if refresh exist = delete
             var token = await _tokenGenerator.GenerateTokenAsync(user, cancellationToken);
 
             return token;

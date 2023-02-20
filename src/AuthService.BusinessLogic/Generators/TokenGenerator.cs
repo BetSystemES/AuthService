@@ -57,7 +57,7 @@ namespace AuthService.BusinessLogic.Generators
                 IssuedAtUtc = issuedAtUtc,
                 JwtTokenExpiresAtUtc = jwtModel.ExpiresAtUtc,
                 RefreshTokenExpiresAtUtc = refreshToken.ExpiresAtUtc,
-                TokenType = _tokenType
+                Type = _tokenType
             };
         }
     }

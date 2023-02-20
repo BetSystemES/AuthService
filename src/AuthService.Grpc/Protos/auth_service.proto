@@ -67,8 +67,8 @@ message Token {
   string refresh_token = 2;
   string type = 3;
   .google.protobuf.Timestamp issued_at_utc = 4;
-  .google.protobuf.Timestamp jwt_expires_at_utc = 5;
-  .google.protobuf.Timestamp refresh_expires_at_utc = 6;
+  .google.protobuf.Timestamp jwt_token_expires_at_utc = 5;
+  .google.protobuf.Timestamp refresh_token_expires_at_utc = 6;
 }
 
 message User {
