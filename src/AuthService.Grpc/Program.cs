@@ -17,7 +17,7 @@ builder.Services
     .AddRepositories()
     .AddPostgresContext(options =>
     {
-        var connectionString = configuration.GetConnectionString("AuthServiceDb");
+        var connectionString = configuration.GetConnectionString("AuthDb");
         options.UseNpgsql(connectionString);
     })
     .AddInfrastructureServices()

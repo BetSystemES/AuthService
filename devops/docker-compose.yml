@@ -1,0 +1,50 @@
+﻿---
+version: "3"
+
+services:
+  authservice_db_postgres:
+    container_name: AuthService_DB_Postgres
+    image: postgres:13.3
+    env_file: .env
+    ports:
+      - 5555:5432
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d AuthDb" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - .\\volumes\\postgres-data\\:/var/lib/postgresql/data
+
+  authservice_postgres_migrator:
+    container_name: AuthService_Postgres_Migrator
+    build:
+      context: ./../
+      dockerfile: ./src/AuthService.DatabaseMigrator/Dockerfile
+    env_file: .env
+    command:
+       [
+        "dotnet",
+        "AuthService.DatabaseMigrator.dll",
+        "--connection-string-source=env",
+        "--connection-string-env-variable-name=AuthService_ConnectionStrings__AuthDb"
+      ]
+    depends_on:
+      authservice_db_postgres:
+        condition: service_healthy
+
+  authservice_grpc_service:
+    container_name: AuthService_GRPC_Service
+    build:
+      context: ./../
+      dockerfile: ./src/AuthService.Grpc/Dockerfile
+    env_file: .env
+    ports:
+      - 5064:80
+    depends_on:
+      authservice_postgres_migrator:
+        condition: service_completed_successfully
+      authservice_db_postgres:
+        condition: service_healthy
