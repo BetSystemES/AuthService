@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="hash">The hash.</param>
-        /// <returns>True if vefification sucess and false if vefification failed.</returns>
+        /// <returns>True if verification success and false if verification failed.</returns>
         bool Verify(string value, string hash);
     }
 }

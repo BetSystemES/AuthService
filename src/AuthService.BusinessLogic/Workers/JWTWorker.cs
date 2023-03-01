@@ -8,16 +8,19 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.BusinessLogic.Workers
 {
+    // TODO: typo in JWTWorker. Should be JwtWorker
     /// <summary>
     /// Jwt worker implementation.
     /// </summary>
     /// <seealso cref="AuthService.BusinessLogic.Contracts.Worker.IJWTWorker" />
     public class JWTWorker : IJWTWorker
     {
+        // TODO: typo in _jWTConfig. Should be _jWtConfig
         private readonly JWTConfig _jWTConfig;
 
         private static readonly string _defaultIdFieldName = "id";
 
+        // TODO: typo in jWTConfig. Should be jWtConfig
         /// <summary>
         /// Initializes a new instance of the <see cref="JWTWorker"/> class.
         /// </summary>
@@ -27,6 +30,8 @@ namespace AuthService.BusinessLogic.Workers
             _jWTConfig = jWTConfig.Value;
         }
 
+        // TODO: typo in ExpiresDelayInMinutes. Should be expiresDelayInMinutes
+        // TODO: typo in GenerageToken. Should be GenerateToken
         public string? GenerageToken(User user, DateTime issuedAtUtc, TimeSpan ExpiresDelayInMinutes, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -54,6 +59,7 @@ namespace AuthService.BusinessLogic.Workers
         /// </returns>
         public Guid? ValidateToken(string token, CancellationToken cancellationToken)
         {
+            // TODO: According to reference nullable true, token should not be null. Check should be removed
             if (token == null)
             {
                 return null;

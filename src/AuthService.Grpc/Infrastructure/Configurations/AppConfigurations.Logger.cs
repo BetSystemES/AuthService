@@ -1,4 +1,5 @@
 ﻿using Serilog;
+// TODO: remove unused/sort usings
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace AuthService.Grpc.Infrastructure.Configurations

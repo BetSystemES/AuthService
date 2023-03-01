@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AuthService.DataAccess.Providers
 {
     /// <summary>
-    /// Role provider implmentation.
+    /// Role provider implementation.
     /// </summary>
     /// <seealso cref="BusinessLogic.Contracts.DataAccess.Providers.IRoleProvider" />
     public class RoleProvider : IRoleProvider

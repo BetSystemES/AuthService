@@ -2,11 +2,14 @@
 
 namespace AuthService.BusinessLogic.Contracts.Worker
 {
+    // TODO: typo in IJWTWorker. Should be IJwtWorker
     /// <summary>
     /// Jwt worker contract.
     /// </summary>
     public interface IJWTWorker
     {
+        // TODO: typo in ExpiresDelayInMinutes. Should be expiresDelayInMinutes
+        // TODO: typo in GenerageToken. Should be GenerateToken
         /// <summary>
         /// Generages the token.
         /// </summary>

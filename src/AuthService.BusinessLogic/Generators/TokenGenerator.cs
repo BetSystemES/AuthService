@@ -36,6 +36,7 @@ namespace AuthService.BusinessLogic.Generators
         {
             var userRoles = await _userRolesProvider.GetUserRoles(user.Id, cancellationToken);
             var issuedAtUtc = _dateTimeProvider.NowUtc;
+            // TODO: we can use one instance of token generator
             var jwtModel = _jwtTokenGenerator.Generate(user, issuedAtUtc, cancellationToken);
             var refreshToken = _refreshTokenGenerator.Generate(user, issuedAtUtc, cancellationToken);
 

@@ -15,12 +15,14 @@ namespace AuthService.BusinessLogic.Services
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IHashProvider _hashProvider;
 
-        public AuthService(IRefreshTokenProvider refreshTokenProvider,
+        public AuthService
+        (
+            IRefreshTokenProvider refreshTokenProvider,
             IUserProvider userProvider,
             ITokenGenerator tokenGenerator,
             IRefreshTokenRepository refreshTokenRepository,
             IHashProvider hashProvider
-            )
+        )
         {
             _refreshTokenProvider = refreshTokenProvider;
             _userProvider = userProvider;
@@ -61,7 +63,9 @@ namespace AuthService.BusinessLogic.Services
             {
                 throw new ApplicationException("Invalid password.");
             }
-            // todo: if refresh exist = delete
+
+            // TODO: if refresh exist = delete
+            
             var token = await _tokenGenerator.GenerateTokenAsync(user, cancellationToken);
 
             return token;

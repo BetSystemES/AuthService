@@ -1,5 +1,6 @@
 ﻿namespace AuthService.BusinessLogic.Models
 {
+    // TODO: Change file location to new dll project AuthService.DataAccess.Entities
     /// <summary>
     /// User entity
     /// </summary>

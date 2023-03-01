@@ -1,6 +1,7 @@
 ﻿using AuthService.BusinessLogic.Contracts.DataAccess;
 using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
 using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
+// TODO: remove unused/sort usings
 using AuthService.BusinessLogic.Contracts.Generators;
 using AuthService.BusinessLogic.Models;
 using AuthService.DataAccess.Providers;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthService.DataAccess
 {
+    // TODO: change file location to AuthService.DataAccess.Extensions
     public static class DataAccessServicesExtensions
     {
         /// <summary>

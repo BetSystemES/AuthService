@@ -27,11 +27,14 @@ namespace AuthService.BusinessLogic.Services
         /// <param name="dateTimeProvider">The date time provider.</param>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="dataContext">The data context.</param>
-        public UserService(IUserProvider userProvider,
+        public UserService
+        (
+            IUserProvider userProvider,
             IHashProvider hashProvider,
             IDateTimeProvider dateTimeProvider,
             IUserRepository userRepository,
-            IDataContext dataContext)
+            IDataContext dataContext
+        )
         {
             _userProvider = userProvider;
             _hashProvider = hashProvider;

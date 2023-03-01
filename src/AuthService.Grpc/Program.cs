@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args)
 
 var configuration = builder.Configuration;
 
+// TODO: typo in JWTConfig
 builder.Services.Configure<JWTConfig>(
     builder.Configuration.GetSection("JWTConfig"));
 
