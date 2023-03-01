@@ -16,10 +16,11 @@ namespace AuthService.Grpc.Infrastructure.Configurations
         public static IServiceCollection AddJwtServices(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            // TODO: typo in JWTTokenGenerator: typo in JwTTokenGenerator
+            services.AddScoped<IJwtTokenGenerator, JWTTokenGenerator>();
             services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
             // TODO: typo in JWTWorker
-            services.AddScoped<IJwtWorker, JWTWorker>();
+            services.AddScoped<IJWTWorker, JWTWorker>();
 
             return services;
         }
