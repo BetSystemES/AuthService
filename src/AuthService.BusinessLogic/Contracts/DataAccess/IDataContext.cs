@@ -1,5 +1,6 @@
 ﻿namespace AuthService.BusinessLogic.Contracts.DataAccess
 {
+    // TODO: change file location to AuthService.DataAccess.Contracts
     /// <summary>
     ///   Data context provider
     /// </summary>

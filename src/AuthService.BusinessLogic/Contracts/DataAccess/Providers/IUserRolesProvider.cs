@@ -2,6 +2,7 @@
 
 namespace AuthService.BusinessLogic.Contracts.DataAccess.Providers
 {
+    // TODO: change file location to AuthService.DataAccess.Contracts.Providers
     /// <summary>
     /// User roles provider
     /// </summary>
