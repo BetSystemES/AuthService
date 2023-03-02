@@ -1,6 +1,6 @@
 ﻿namespace AuthService.BusinessLogic.Models
 {
-    // TODO: Change file location to AuthService.DataAccess.Entities
+    // TODO: Change file location to AuthService.BusinessLogic.Entities
     /// <summary>
     /// User refresh token
     /// </summary>

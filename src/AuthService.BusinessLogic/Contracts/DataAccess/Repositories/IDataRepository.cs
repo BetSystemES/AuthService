@@ -1,6 +1,5 @@
 ﻿namespace AuthService.BusinessLogic.Contracts.DataAccess.Repositories
 {
-    // TODO: change file location to AuthService.DataAccess.Contracts.Repositories
     public interface IDataRepository<in TEntity>
     {
         Task Add(TEntity entity, CancellationToken token);
