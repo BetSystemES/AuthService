@@ -1,4 +1,5 @@
-﻿using AuthService.BusinessLogic.Models;
+﻿using AuthService.BusinessLogic.Entities;
+using AuthService.BusinessLogic.Models;
 
 namespace AuthService.BusinessLogic.Contracts.Generators
 {

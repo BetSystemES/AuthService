@@ -1,4 +1,5 @@
 ﻿using AuthService.DataAccess;
+using AuthService.DataAccess.Extensions;
 using AuthService.DatabaseMigrator.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

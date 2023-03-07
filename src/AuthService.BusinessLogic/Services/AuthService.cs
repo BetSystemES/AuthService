@@ -65,7 +65,7 @@ namespace AuthService.BusinessLogic.Services
             }
 
             // TODO: if refresh exist = delete
-            
+
             var token = await _tokenGenerator.GenerateTokenAsync(user, cancellationToken);
 
             return token;

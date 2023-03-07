@@ -1,4 +1,4 @@
-﻿using AuthService.BusinessLogic.Models;
+﻿using AuthService.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

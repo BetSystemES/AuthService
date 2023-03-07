@@ -1,9 +1,7 @@
-﻿namespace AuthService.BusinessLogic
+﻿namespace AuthService.BusinessLogic.Models.AppSettings
 {
-    // TODO: typo in JWTConfig. Should be JwtConfig
-    // TODO: should changed location of file to AuthService.BusinessLogic.Models.AppSettings
     /// <summary>Provides configuration for jwt generation</summary>
-    public class JWTConfig
+    public class JwtConfig
     {
         /// <summary>
         /// Gets or sets the secret.

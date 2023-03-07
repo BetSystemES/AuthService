@@ -1,6 +1,6 @@
 ﻿namespace AuthService.BusinessLogic.Models
 {
-    public class RefreshToken : JwtToken
+    public class AccessToken : JwtToken
     {
     }
 }

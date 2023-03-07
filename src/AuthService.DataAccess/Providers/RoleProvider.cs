@@ -1,5 +1,5 @@
 ﻿using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
-using AuthService.BusinessLogic.Models;
+using AuthService.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.DataAccess.Providers

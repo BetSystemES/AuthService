@@ -2,45 +2,41 @@
 using System.Security.Claims;
 using System.Text;
 using AuthService.BusinessLogic.Contracts.Worker;
-using AuthService.BusinessLogic.Models;
+using AuthService.BusinessLogic.Entities;
+using AuthService.BusinessLogic.Models.AppSettings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.BusinessLogic.Workers
 {
-    // TODO: typo in JWTWorker. Should be JwtWorker
     /// <summary>
     /// Jwt worker implementation.
     /// </summary>
-    /// <seealso cref="AuthService.BusinessLogic.Contracts.Worker.IJWTWorker" />
-    public class JWTWorker : IJWTWorker
+    /// <seealso cref="AuthService.BusinessLogic.Contracts.Worker.IJwtWorker" />
+    public class JwtWorker : IJwtWorker
     {
-        // TODO: typo in _jWTConfig. Should be _jWtConfig
-        private readonly JWTConfig _jWTConfig;
+        private readonly JwtConfig _jwtConfig;
 
         private static readonly string _defaultIdFieldName = "id";
 
-        // TODO: typo in jWTConfig. Should be jWtConfig
         /// <summary>
-        /// Initializes a new instance of the <see cref="JWTWorker"/> class.
+        /// Initializes a new instance of the <see cref="JwtWorker"/> class.
         /// </summary>
-        /// <param name="jWTConfig">The jwt configuration.</param>
-        public JWTWorker(IOptions<JWTConfig> jWTConfig)
+        /// <param name="jwtConfig">The jwt configuration.</param>
+        public JwtWorker(IOptions<JwtConfig> jwtConfig)
         {
-            _jWTConfig = jWTConfig.Value;
+            _jwtConfig = jwtConfig.Value;
         }
 
-        // TODO: typo in ExpiresDelayInMinutes. Should be expiresDelayInMinutes
-        // TODO: typo in GenerageToken. Should be GenerateToken
-        public string? GenerageToken(User user, DateTime issuedAtUtc, TimeSpan ExpiresDelayInMinutes, CancellationToken cancellationToken)
+        public string? GenerateToken(User user, DateTime issuedAtUtc, TimeSpan expiresDelayInMinutes, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jWTConfig.Secret!);
+            var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret!);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim(_defaultIdFieldName, user.Id.ToString()) }),
-                Expires = issuedAtUtc.Add(ExpiresDelayInMinutes),
+                Expires = issuedAtUtc.Add(expiresDelayInMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -59,15 +55,9 @@ namespace AuthService.BusinessLogic.Workers
         /// </returns>
         public Guid? ValidateToken(string token, CancellationToken cancellationToken)
         {
-            // TODO: According to reference nullable true, token should not be null. Check should be removed
-            if (token == null)
-            {
-                return null;
-            }
-
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes(_jWTConfig.Secret!);
+            var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret!);
             try
             {
                 tokenHandler.ValidateToken(token, new TokenValidationParameters

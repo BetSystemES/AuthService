@@ -3,6 +3,7 @@ using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
 using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
 using AuthService.BusinessLogic.Contracts.Generators;
 using AuthService.BusinessLogic.Contracts.Providers;
+using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
 
 namespace AuthService.BusinessLogic.Generators
@@ -12,21 +13,18 @@ namespace AuthService.BusinessLogic.Generators
         private static readonly string _tokenType = "Bearer";
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly IRefreshTokenGenerator _refreshTokenGenerator;
         private readonly IUserRolesProvider _userRolesProvider;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IDataContext _dataContext;
 
         public TokenGenerator(IDateTimeProvider dateTimeProvider,
             IJwtTokenGenerator jwtTokenGenerator,
-            IRefreshTokenGenerator refreshTokenGenerator,
             IUserRolesProvider userRolesProvider,
             IRefreshTokenRepository refreshTokenRepository,
             IDataContext dataContext)
         {
             _dateTimeProvider = dateTimeProvider;
             _jwtTokenGenerator = jwtTokenGenerator;
-            _refreshTokenGenerator = refreshTokenGenerator;
             _userRolesProvider = userRolesProvider;
             _refreshTokenRepository = refreshTokenRepository;
             _dataContext = dataContext;
@@ -37,8 +35,8 @@ namespace AuthService.BusinessLogic.Generators
             var userRoles = await _userRolesProvider.GetUserRoles(user.Id, cancellationToken);
             var issuedAtUtc = _dateTimeProvider.NowUtc;
             // TODO: we can use one instance of token generator
-            var jwtModel = _jwtTokenGenerator.Generate(user, issuedAtUtc, cancellationToken);
-            var refreshToken = _refreshTokenGenerator.Generate(user, issuedAtUtc, cancellationToken);
+            var accessToken = _jwtTokenGenerator.Generate<AccessToken>(user, issuedAtUtc, cancellationToken);
+            var refreshToken = _jwtTokenGenerator.Generate<RefreshToken>(user, issuedAtUtc, cancellationToken);
 
             var userRefreshToken = new UserRefreshToken
             {
@@ -53,10 +51,10 @@ namespace AuthService.BusinessLogic.Generators
 
             return new Token
             {
-                AccessToken = jwtModel.Token,
+                AccessToken = accessToken.Token,
                 RefreshToken = refreshToken.Token,
                 IssuedAtUtc = issuedAtUtc,
-                JwtTokenExpiresAtUtc = jwtModel.ExpiresAtUtc,
+                JwtTokenExpiresAtUtc = accessToken.ExpiresAtUtc,
                 RefreshTokenExpiresAtUtc = refreshToken.ExpiresAtUtc,
                 Type = _tokenType
             };

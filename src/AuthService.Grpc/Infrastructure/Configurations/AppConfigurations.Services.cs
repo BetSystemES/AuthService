@@ -1,23 +1,17 @@
-﻿using AuthService.BusinessLogic;
-using AuthService.BusinessLogic.Contracts.Generators;
+﻿using AuthService.BusinessLogic.Contracts.Generators;
 using AuthService.BusinessLogic.Contracts.Providers;
 using AuthService.BusinessLogic.Contracts.Services;
-// TODO: remove unused/sort usings
-using AuthService.BusinessLogic.Contracts.Worker;
 using AuthService.BusinessLogic.Generators;
 using AuthService.BusinessLogic.Providers;
 using AuthService.BusinessLogic.Services;
-using AuthService.BusinessLogic.Workers;
 using AuthService.Grpc.Infrastructure.Mappings;
-using BusinessLogic = AuthService.BusinessLogic;
 
 namespace AuthService.Grpc.Infrastructure.Configurations
 {
-    // TODO: remove partial or change name from AppConfiguration to AppConfigurations
     /// <summary>
     /// App configuration
     /// </summary>
-    public static partial class AppConfiguration
+    public static partial class AppConfigurations
     {
         /// <summary>Adds the infrastructure services to service collection</summary>
         /// <param name="services">The service collection.</param>
@@ -37,7 +31,7 @@ namespace AuthService.Grpc.Infrastructure.Configurations
             services.AddScoped<IAuthService, BusinessLogic.Services.AuthService>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<ITokenGenerator, TokenGenerator>()
-                .AddScoped<IJwtTokenGenerator, JWTTokenGenerator>()
+                .AddScoped<IJwtTokenGenerator, JwtTokenGenerator>()
                 .AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>()
                 .AddSingleton<IHashProvider, HashProvider>()
                 .AddScoped<IDateTimeProvider, DateTimeProvider>();

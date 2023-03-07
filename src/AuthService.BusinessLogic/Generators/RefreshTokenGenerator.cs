@@ -1,20 +1,18 @@
 ﻿using AuthService.BusinessLogic.Contracts.Generators;
 using AuthService.BusinessLogic.Contracts.Worker;
+using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
+using AuthService.BusinessLogic.Models.AppSettings;
 using Microsoft.Extensions.Options;
 
 namespace AuthService.BusinessLogic.Generators
 {
     public class RefreshTokenGenerator : IRefreshTokenGenerator
     {
-        // TODO: typo in _jWTConfig. Should be _jWtConfig
-        // TODO: typo in _jWTWorker. Should be _jWtWorker
-        private readonly JWTConfig _jWTConfig;
-        private readonly IJWTWorker _jWTWorker;
+        private readonly JwtConfig _jWTConfig;
+        private readonly IJwtWorker _jWTWorker;
 
-        // TODO: typo in jWTConfig. Should be jWtConfig
-        // TODO: typo in _jWTWorker. Should be _jWtWorker
-        public RefreshTokenGenerator(IOptions<JWTConfig> jWTConfig, IJWTWorker jWTWorker)
+        public RefreshTokenGenerator(IOptions<JwtConfig> jWTConfig, IJwtWorker jWTWorker)
         {
             _jWTConfig = jWTConfig.Value;
             _jWTWorker = jWTWorker;
@@ -24,8 +22,7 @@ namespace AuthService.BusinessLogic.Generators
         {
             var expiresAtUtc = issuedAtUtc.AddMinutes(_jWTConfig.RefreshTokenLifetimeInMinutes);
 
-            // TODO: typo GenerageToken. Should be GenerateToken
-            var token = _jWTWorker.GenerageToken(
+            var token = _jWTWorker.GenerateToken(
                 user,
                 issuedAtUtc,
                 TimeSpan.FromMinutes(_jWTConfig.RefreshTokenLifetimeInMinutes),

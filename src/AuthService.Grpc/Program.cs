@@ -1,5 +1,5 @@
-﻿using AuthService.BusinessLogic;
-using AuthService.DataAccess;
+﻿using AuthService.BusinessLogic.Models.AppSettings;
+using AuthService.DataAccess.Extensions;
 using AuthService.Grpc.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +9,8 @@ var builder = WebApplication.CreateBuilder(args)
 
 var configuration = builder.Configuration;
 
-// TODO: typo in JWTConfig
-builder.Services.Configure<JWTConfig>(
-    builder.Configuration.GetSection("JWTConfig"));
+builder.Services.Configure<JwtConfig>(
+    builder.Configuration.GetSection("JwtConfig"));
 
 builder.Services
     .AddProviders()

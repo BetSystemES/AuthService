@@ -22,7 +22,7 @@ namespace AuthService.Grpc.Infrastructure.Mappings
 
             CreateMap<BusinessModels.Token, Token>()
                 .ReverseMap();
-            CreateMap<BusinessModels.User, User>()
+            CreateMap<AuthService.BusinessLogic.Entities.User, User>()
                 .ReverseMap();
             CreateMap<CreateUserRequest, CreateUserModel>()
                 .ReverseMap();

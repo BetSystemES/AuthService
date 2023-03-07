@@ -1,6 +1,5 @@
-﻿namespace AuthService.BusinessLogic.Models
+﻿namespace AuthService.BusinessLogic.Entities
 {
-    // TODO: Change file location to AuthService.BusinessLogic.Entities
     /// <summary>
     /// User role many-to-many entity
     /// </summary>

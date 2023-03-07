@@ -1,17 +1,17 @@
 ﻿using AuthService.BusinessLogic.Contracts.DataAccess;
 using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
 using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
-// TODO: remove unused/sort usings
-using AuthService.BusinessLogic.Contracts.Generators;
-using AuthService.BusinessLogic.Models;
+using AuthService.BusinessLogic.Entities;
 using AuthService.DataAccess.Providers;
 using AuthService.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuthService.DataAccess
+namespace AuthService.DataAccess.Extensions
 {
-    // TODO: change file location to AuthService.DataAccess.Extensions
+    /// <summary>
+    /// Data layer extenions for <seealso cref="IServiceCollection"/>
+    /// </summary>
     public static class DataAccessServicesExtensions
     {
         /// <summary>
@@ -72,7 +72,7 @@ namespace AuthService.DataAccess
         private static IServiceCollection AddScopedDbSet<TEntity>(this IServiceCollection services)
             where TEntity : class
         {
-            services.AddScoped<DbSet<TEntity>>(serviceProvider =>
+            services.AddScoped(serviceProvider =>
                 serviceProvider.GetRequiredService<AuthDbContext>().Set<TEntity>());
 
             return services;
