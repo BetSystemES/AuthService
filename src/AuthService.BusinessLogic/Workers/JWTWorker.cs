@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.BusinessLogic.Workers
 {
+    // TODO: rename file name to JwtWorker.cs
     /// <summary>
     /// Jwt worker implementation.
     /// </summary>

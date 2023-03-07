@@ -22,6 +22,7 @@ namespace AuthService.Grpc.Infrastructure.Mappings
 
             CreateMap<BusinessModels.Token, Token>()
                 .ReverseMap();
+            // TODO: fix this (AuthService.BusinessLogic.Entities.User is not available)
             CreateMap<AuthService.BusinessLogic.Entities.User, User>()
                 .ReverseMap();
             CreateMap<CreateUserRequest, CreateUserModel>()

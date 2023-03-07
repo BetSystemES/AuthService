@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace AuthService.BusinessLogic.Generators
 {
+    // TODO: class can be deleted because we have already JwtTokenGenerator class
     public class RefreshTokenGenerator : IRefreshTokenGenerator
     {
         private readonly JwtConfig _jWTConfig;
