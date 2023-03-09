@@ -1,7 +1,5 @@
-﻿using AuthService.BusinessLogic.Contracts.Generators;
-using AuthService.BusinessLogic.Contracts.Providers;
+﻿using AuthService.BusinessLogic.Contracts.Providers;
 using AuthService.BusinessLogic.Contracts.Services;
-using AuthService.BusinessLogic.Generators;
 using AuthService.BusinessLogic.Providers;
 using AuthService.BusinessLogic.Services;
 using AuthService.Grpc.Infrastructure.Mappings;
@@ -30,9 +28,6 @@ namespace AuthService.Grpc.Infrastructure.Configurations
         {
             services.AddScoped<IAuthService, BusinessLogic.Services.AuthService>()
                 .AddScoped<IUserService, UserService>()
-                .AddScoped<ITokenGenerator, TokenGenerator>()
-                .AddScoped<IJwtTokenGenerator, JwtTokenGenerator>()
-                .AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>()
                 .AddSingleton<IHashProvider, HashProvider>()
                 .AddScoped<IDateTimeProvider, DateTimeProvider>();
 

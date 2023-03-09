@@ -11,12 +11,15 @@ namespace AuthService.DataAccess.Repositories
     /// <seealso cref="BusinessLogic.Contracts.DataAccess.Repositories.IRefreshTokenRepository" />
     public class RefreshTokenRepository : SqlRepository<UserRefreshToken>, IRefreshTokenRepository
     {
+        private readonly DbSet<UserRefreshToken> _entities;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RefreshTokenRepository"/> class.
         /// </summary>
         /// <param name="provider">The provider.</param>
         public RefreshTokenRepository(DbSet<UserRefreshToken> provider) : base(provider)
         {
+            _entities = provider;
         }
     }
 }

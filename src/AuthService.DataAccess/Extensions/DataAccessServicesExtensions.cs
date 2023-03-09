@@ -53,8 +53,7 @@ namespace AuthService.DataAccess.Extensions
         {
             services.AddDbContextPool<AuthDbContext>(options);
 
-            services.AddScoped<IDataContext, AuthDataContext>();
-            services.AddTransient<DbContext>(serviceProvider => serviceProvider.GetRequiredService<AuthDbContext>())
+            services.AddScoped<IDataContext, AuthDataContext>()
                     .AddScopedDbSet<UserRefreshToken>()
                     .AddScopedDbSet<UserRole>()
                     .AddScopedDbSet<User>()

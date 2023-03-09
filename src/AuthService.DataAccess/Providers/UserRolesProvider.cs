@@ -21,14 +21,7 @@ namespace AuthService.DataAccess.Providers
             _entities = entities;
         }
 
-        /// <summary>
-        /// Gets the user roles.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="token">The token.</param>
-        /// <returns>
-        /// List of Roles
-        /// </returns>
+        /// <inheritdoc/>
         public Task<List<Role?>> GetUserRoles(Guid userId, CancellationToken token)
         {
             return _entities

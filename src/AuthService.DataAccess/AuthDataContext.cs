@@ -18,13 +18,7 @@ namespace AuthService.DataAccess
             _authDbContext = authDbContext;
         }
 
-        /// <summary>
-        /// Saves the changes.
-        /// </summary>
-        /// <param name="token">The token.</param>
-        /// <returns>
-        /// Task
-        /// </returns>
+        /// <inheritdoc/>
         public Task SaveChanges(CancellationToken token)
         {
             return _authDbContext.SaveChangesAsync(token);

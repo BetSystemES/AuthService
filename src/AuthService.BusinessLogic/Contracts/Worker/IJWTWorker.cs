@@ -2,7 +2,6 @@
 
 namespace AuthService.BusinessLogic.Contracts.Worker
 {
-    // TODO: rename file name to IJwtWorker.cs
     /// <summary>
     /// Jwt worker contract.
     /// </summary>

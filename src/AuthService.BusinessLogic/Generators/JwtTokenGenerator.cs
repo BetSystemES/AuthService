@@ -7,40 +7,44 @@ using Microsoft.Extensions.Options;
 
 namespace AuthService.BusinessLogic.Generators
 {
+    /// <summary>
+    /// Jwt token generator implementation.
+    /// </summary>
+    /// <seealso cref="AuthService.BusinessLogic.Contracts.Generators.IJwtTokenGenerator" />
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
-        private readonly JwtConfig _jWtConfig;
-        private readonly IJwtWorker _jWtWorker;
+        private readonly JwtConfig _jwtConfig;
+        private readonly IJwtWorker _jwtWorker;
 
-        public JwtTokenGenerator(IOptions<JwtConfig> jWTConfig, IJwtWorker jWTWorker)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JwtTokenGenerator"/> class.
+        /// </summary>
+        /// <param name="jwtConfig">The JWT configuration.</param>
+        /// <param name="jwtWorker">The JWT worker.</param>
+        public JwtTokenGenerator(IOptions<JwtConfig> jwtConfig, IJwtWorker jwtWorker)
         {
-            _jWtConfig = jWTConfig.Value;
-            _jWtWorker = jWTWorker;
+            _jwtConfig = jwtConfig.Value;
+            _jwtWorker = jwtWorker;
         }
 
-        public TToken Generate<TToken>(User user, DateTime issuedAtUtc, CancellationToken cancellationToken) where TToken : JwtToken
+        /// <inheritdoc/>
+        public TToken Generate<TToken>(User user, DateTime issuedAtUtc, CancellationToken cancellationToken) where TToken : JwtToken, new()
         {
-            var expiresAtUtc = nameof(TToken) switch
+            var expiresAtUtc = typeof(TToken).Name switch
             {
-                nameof(RefreshToken) => _jWtConfig.RefreshTokenLifetimeInMinutes,
-                nameof(AccessToken) => _jWtConfig.TokenLifetimeInMinutes,
+                nameof(RefreshToken) => _jwtConfig.RefreshTokenLifetimeInMinutes,
+                nameof(AccessToken) => _jwtConfig.TokenLifetimeInMinutes,
                 _ => throw new InvalidOperationException(nameof(TToken))
             };
 
-            var token = _jWtWorker.GenerateToken(
-                user,
-                issuedAtUtc,
-                TimeSpan.FromMinutes(expiresAtUtc),
-                cancellationToken);
-
-            var tokenModel = new JwtToken()
+            var token = _jwtWorker.GenerateToken(user, issuedAtUtc, TimeSpan.FromMinutes(expiresAtUtc), cancellationToken);
+            var tokenModel = new TToken()
             {
                 ExpiresAtUtc = issuedAtUtc.AddMinutes(expiresAtUtc),
                 IssuedAtUtc = issuedAtUtc,
                 Token = token
             };
-
-            return (TToken)tokenModel;
+            return tokenModel;
         }
     }
 }

@@ -33,5 +33,6 @@ app.Run();
 
 namespace AuthService.Grpc
 {
-    public partial class Program { }
+    public partial class Program
+    { }
 }

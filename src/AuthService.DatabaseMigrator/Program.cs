@@ -1,10 +1,10 @@
-﻿using AuthService.DataAccess;
+﻿using System.CommandLine;
+using AuthService.DataAccess;
 using AuthService.DataAccess.Extensions;
 using AuthService.DatabaseMigrator.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.CommandLine;
 
 var rootCommand = new RootCommand("Migrate database by connection string via EntityFramework");
 var connectionStringSourceOption = new Option<string>("--connection-string-source",

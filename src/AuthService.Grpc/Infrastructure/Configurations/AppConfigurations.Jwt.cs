@@ -16,9 +16,9 @@ namespace AuthService.Grpc.Infrastructure.Configurations
         public static IServiceCollection AddJwtServices(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-            services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
-            services.AddScoped<IJwtWorker, JwtWorker>();
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>()
+                .AddScoped<IJwtWorker, JwtWorker>()
+                .AddScoped<ITokenGenerator, TokenGenerator>();
 
             return services;
         }

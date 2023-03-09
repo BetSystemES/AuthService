@@ -1,6 +1,8 @@
 ﻿using AuthService.BusinessLogic.Models;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
+using BusinessEntities = AuthService.BusinessLogic.Entities;
+
 using BusinessModels = AuthService.BusinessLogic.Models;
 
 namespace AuthService.Grpc.Infrastructure.Mappings
@@ -22,8 +24,7 @@ namespace AuthService.Grpc.Infrastructure.Mappings
 
             CreateMap<BusinessModels.Token, Token>()
                 .ReverseMap();
-            // TODO: fix this (AuthService.BusinessLogic.Entities.User is not available)
-            CreateMap<AuthService.BusinessLogic.Entities.User, User>()
+            CreateMap<BusinessEntities.User, User>()
                 .ReverseMap();
             CreateMap<CreateUserRequest, CreateUserModel>()
                 .ReverseMap();

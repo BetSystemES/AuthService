@@ -25,14 +25,7 @@ namespace AuthService.DataAccess.Providers
             _dateTimeProvider = dateTimeProvider;
         }
 
-        /// <summary>
-        /// Gets the token.
-        /// </summary>
-        /// <param name="refreshToken">The refresh token.</param>
-        /// <param name="token">The token.</param>
-        /// <returns>
-        /// UserRefreshToken
-        /// </returns>
+        /// <inheritdoc/>
         public Task<UserRefreshToken?> GetToken(string refreshToken, CancellationToken token)
         {
             if (string.IsNullOrEmpty(refreshToken))
@@ -47,6 +40,12 @@ namespace AuthService.DataAccess.Providers
                     .FirstOrDefaultAsync(x => x.Token == refreshToken &&
                                             x.ExpiresAtUtc > now &&
                                             x.IssuedAtUtc < now, token);
+        }
+
+        /// <inheritdoc/>
+        public Task<UserRefreshToken?> GetByUserId(Guid id, CancellationToken cancellationToken)
+        {
+            return _entities.FirstOrDefaultAsync(e => e.UserId == id);
         }
     }
 }

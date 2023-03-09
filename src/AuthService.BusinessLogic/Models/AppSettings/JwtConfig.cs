@@ -1,6 +1,6 @@
 ﻿namespace AuthService.BusinessLogic.Models.AppSettings
 {
-    /// <summary>Provides configuration for jwt generation</summary>
+    /// <summary>Provides configuration for jwt generation. </summary>
     public class JwtConfig
     {
         /// <summary>

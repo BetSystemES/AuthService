@@ -8,6 +8,10 @@ using AuthService.BusinessLogic.Models;
 
 namespace AuthService.BusinessLogic.Generators
 {
+    /// <summary>
+    /// Token generator implementation. Token=<seealso cref="Token"/>
+    /// </summary>
+    /// <seealso cref="AuthService.BusinessLogic.Contracts.Generators.ITokenGenerator" />
     public class TokenGenerator : ITokenGenerator
     {
         private static readonly string _tokenType = "Bearer";
@@ -17,6 +21,14 @@ namespace AuthService.BusinessLogic.Generators
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IDataContext _dataContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TokenGenerator"/> class.
+        /// </summary>
+        /// <param name="dateTimeProvider">The date time provider.</param>
+        /// <param name="jwtTokenGenerator">The JWT token generator.</param>
+        /// <param name="userRolesProvider">The user roles provider.</param>
+        /// <param name="refreshTokenRepository">The refresh token repository.</param>
+        /// <param name="dataContext">The data context.</param>
         public TokenGenerator(IDateTimeProvider dateTimeProvider,
             IJwtTokenGenerator jwtTokenGenerator,
             IUserRolesProvider userRolesProvider,
@@ -30,11 +42,11 @@ namespace AuthService.BusinessLogic.Generators
             _dataContext = dataContext;
         }
 
+        /// <inheritdoc/>
         public async Task<Token> GenerateTokenAsync(User user, CancellationToken cancellationToken)
         {
             var userRoles = await _userRolesProvider.GetUserRoles(user.Id, cancellationToken);
             var issuedAtUtc = _dateTimeProvider.NowUtc;
-            // TODO: we can use one instance of token generator
             var accessToken = _jwtTokenGenerator.Generate<AccessToken>(user, issuedAtUtc, cancellationToken);
             var refreshToken = _jwtTokenGenerator.Generate<RefreshToken>(user, issuedAtUtc, cancellationToken);
 

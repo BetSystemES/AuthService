@@ -21,13 +21,7 @@ namespace AuthService.DataAccess.Providers
             _entities = entities;
         }
 
-        /// <summary>
-        /// Gets all.
-        /// </summary>
-        /// <param name="token">The token.</param>
-        /// <returns>
-        /// List of roles
-        /// </returns>
+        /// <inheritdoc/>
         public Task<List<Role>> GetAll(CancellationToken token)
         {
             return _entities

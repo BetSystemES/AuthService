@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.BusinessLogic.Workers
 {
-    // TODO: rename file name to JwtWorker.cs
     /// <summary>
     /// Jwt worker implementation.
     /// </summary>
@@ -29,6 +28,7 @@ namespace AuthService.BusinessLogic.Workers
             _jwtConfig = jwtConfig.Value;
         }
 
+        /// <inheritdoc/>
         public string? GenerateToken(User user, DateTime issuedAtUtc, TimeSpan expiresDelayInMinutes, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -45,15 +45,7 @@ namespace AuthService.BusinessLogic.Workers
             return tokenHandler.WriteToken(token);
         }
 
-        /// <summary>
-        /// Validates the token.
-        /// </summary>
-        /// <param name="token">The token.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// return user id from JWT token if validation successful;
-        /// return null if validation fails;
-        /// </returns>
+        /// <inheritdoc/>
         public Guid? ValidateToken(string token, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
