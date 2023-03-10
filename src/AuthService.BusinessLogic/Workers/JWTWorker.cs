@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AuthService.BusinessLogic.Constants;
 using AuthService.BusinessLogic.Contracts.Worker;
 using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models.AppSettings;
@@ -17,9 +18,6 @@ namespace AuthService.BusinessLogic.Workers
     public class JwtWorker : IJwtWorker
     {
         private readonly JwtConfig _jwtConfig;
-
-        private static readonly string _defaultIdFieldName = "id";
-        private static readonly string _defaultRoleFieldName = "id";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtWorker"/> class.
@@ -44,7 +42,7 @@ namespace AuthService.BusinessLogic.Workers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(_defaultIdFieldName, user.Id.ToString()),
+                    new Claim(JwtAuthConstants.DefaultIdFieldName, user.Id.ToString()),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, string.Join(",", roles.Select(x => x.Name)))
                 }),
                 Issuer = _jwtConfig.Issuer,
@@ -67,15 +65,16 @@ namespace AuthService.BusinessLogic.Workers
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
+                    ValidateIssuer = true,
                     ValidateAudience = false,
                     // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out var validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == _defaultIdFieldName).Value);
+                var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == JwtAuthConstants.DefaultIdFieldName).Value);
 
                 // return user id from JWT token if validation successful
                 return userId;

@@ -14,6 +14,7 @@ namespace AuthService.Grpc.Services
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
+        private readonly IRoleService _roleService;
         private readonly ILogger<AuthService> _logger;
 
         /// <summary>
@@ -26,11 +27,13 @@ namespace AuthService.Grpc.Services
         public AuthService(IUserService userService,
             IAuthService authService,
             IMapper mapper,
+            IRoleService roleService,
             ILogger<AuthService> logger)
         {
             _userService = userService;
             _authService = authService;
             _mapper = mapper;
+            _roleService = roleService;
             _logger = logger;
         }
 
@@ -111,6 +114,20 @@ namespace AuthService.Grpc.Services
         public override Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
         {
             return base.DeleteUser(request, context);
+        }
+
+        public override async Task<GetAllRolesResponse> GetAllRoles(GetAllRolesRequest request, ServerCallContext context)
+        {
+            var token = context.CancellationToken;
+
+            var roles = await _roleService.GetAll(token);
+
+            var grpcRoles = _mapper.Map<IEnumerable<Role>>(roles);
+
+            var response = new GetAllRolesResponse();
+            response.Roles.AddRange(grpcRoles);
+
+            return response;
         }
     }
 }

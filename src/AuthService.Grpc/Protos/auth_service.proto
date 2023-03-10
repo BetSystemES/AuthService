@@ -18,6 +18,9 @@ service AuthService {
     returns (CreateUserResponse);
   rpc DeleteUser(DeleteUserRequest)
     returns (DeleteUserResponse);
+
+  rpc GetAllRoles(GetAllRolesRequest)
+    returns (GetAllRolesResponse);
 }
 
 message AuthenticateRequest {
@@ -62,6 +65,13 @@ message DeleteUserRequest {
 message DeleteUserResponse {
 }
 
+message GetAllRolesRequest {
+}
+
+message GetAllRolesResponse {
+  repeated Role roles = 1;
+}
+
 message Token {
   string access_token = 1;
   string refresh_token = 2;
@@ -75,4 +85,9 @@ message User {
   string id = 1;
   string email = 2;
   bool is_locked = 3;
+}
+
+message Role {
+  string id = 1;
+  string name = 2;
 }

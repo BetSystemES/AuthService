@@ -7,6 +7,7 @@ using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Extensions;
 using AuthService.BusinessLogic.Models;
 using AuthService.BusinessLogic.Models.Enums;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.BusinessLogic.Services
 {
@@ -62,17 +63,20 @@ namespace AuthService.BusinessLogic.Services
         /// </returns>
         public async Task<UserSimpleModel> CreateUser(CreateUserModel model, CancellationToken cancellationToken)
         {
+            var now = _dateTimeProvider.NowUtc;
+
             var user = new User
             {
                 Email = model.Email!,
                 PasswordHash = _hashProvider.Hash(model.Password!),
-                CreatedAtUtc = _dateTimeProvider.NowUtc,
-                UpdatedAtUtc = _dateTimeProvider.NowUtc,
+                CreatedAtUtc = now,
+                UpdatedAtUtc = now,
             };
 
             await _userRepository.Add(user, cancellationToken);
-            var userRoles = model.RoleIds.Select(x => new UserRole() { RoleId = x, UserId = user.Id });
-            await _userRoleRepository.AddToUser(userRoles);
+            user.UserRole.AddRange(model.RoleIds
+                .Select(x => new UserRole() { RoleId = x }));
+
             await _dataContext.SaveChanges(cancellationToken);
 
             return new UserSimpleModel

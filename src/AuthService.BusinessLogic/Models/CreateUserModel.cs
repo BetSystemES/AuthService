@@ -22,22 +22,6 @@
         public string? Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the roles.
-        /// </summary>
-        /// <value>
-        /// The roles.
-        /// </value>
-        public List<string>? RoleNames { get; set; }
-
-        /// <summary>
-        /// Gets or sets the claims.
-        /// </summary>
-        /// <value>
-        /// The claims.
-        /// </value>
-        public Dictionary<string, string>? Claims { get; set; }
-
-        /// <summary>
         /// Gets or sets the role ids.
         /// </summary>
         /// <value>

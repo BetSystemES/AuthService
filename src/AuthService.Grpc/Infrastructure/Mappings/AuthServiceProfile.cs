@@ -30,6 +30,9 @@ namespace AuthService.Grpc.Infrastructure.Mappings
                 .ReverseMap();
             CreateMap<UserSimpleModel, User>()
                 .ReverseMap();
+
+            CreateMap<BusinessEntities.Role, Role>()
+                .ReverseMap();
         }
     }
 }
