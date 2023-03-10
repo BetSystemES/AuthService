@@ -19,7 +19,7 @@ namespace AuthService.BusinessLogic.Contracts.Worker
         /// <summary>
         /// Validates jwt.
         /// </summary>
-        /// <param name="token">JWT.</param>
+        /// <param name="token">JWT</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>User name from token.</returns>
         Guid? ValidateToken(string token, CancellationToken cancellationToken);
