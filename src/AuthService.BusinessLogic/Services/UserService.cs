@@ -4,7 +4,9 @@ using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
 using AuthService.BusinessLogic.Contracts.Providers;
 using AuthService.BusinessLogic.Contracts.Services;
 using AuthService.BusinessLogic.Entities;
+using AuthService.BusinessLogic.Extensions;
 using AuthService.BusinessLogic.Models;
+using AuthService.BusinessLogic.Models.Enums;
 
 namespace AuthService.BusinessLogic.Services
 {
@@ -19,6 +21,8 @@ namespace AuthService.BusinessLogic.Services
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IUserRepository _userRepository;
         private readonly IDataContext _dataContext;
+        private readonly IRoleProvider _roleProvider;
+        private readonly IUserRoleRepository _userRoleRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
@@ -34,7 +38,9 @@ namespace AuthService.BusinessLogic.Services
             IHashProvider hashProvider,
             IDateTimeProvider dateTimeProvider,
             IUserRepository userRepository,
-            IDataContext dataContext
+            IDataContext dataContext,
+            IRoleProvider roleProvider,
+            IUserRoleRepository userRoleRepository
         )
         {
             _userProvider = userProvider;
@@ -42,6 +48,8 @@ namespace AuthService.BusinessLogic.Services
             _dateTimeProvider = dateTimeProvider;
             _userRepository = userRepository;
             _dataContext = dataContext;
+            _roleProvider = roleProvider;
+            _userRoleRepository = userRoleRepository;
         }
 
         /// <summary>
@@ -60,10 +68,13 @@ namespace AuthService.BusinessLogic.Services
                 PasswordHash = _hashProvider.Hash(model.Password!),
                 CreatedAtUtc = _dateTimeProvider.NowUtc,
                 UpdatedAtUtc = _dateTimeProvider.NowUtc,
-                UserRole = new List<UserRole>(),
+                UserRole = new List<UserRole>()
             };
+            var roles = await _roleProvider.GetAll(cancellationToken);
+            var userRole = roles.FirstOrDefault(x => x.Name == AuthRole.User.GetDescription());
 
             await _userRepository.Add(user, cancellationToken);
+            await _userRoleRepository.AddToUser(user.Id, userRole.Id);
             await _dataContext.SaveChanges(cancellationToken);
 
             return new UserSimpleModel

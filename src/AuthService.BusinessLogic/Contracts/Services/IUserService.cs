@@ -18,12 +18,11 @@ namespace AuthService.BusinessLogic.Contracts.Services
         /// <summary>
         /// Creates the user.
         /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="roles">The roles.</param>
-        /// <param name="claims">The claims.</param>
+        /// <param name="model">The model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>User simplified model</returns>
+        /// <returns>
+        /// User simplified model
+        /// </returns>
         Task<UserSimpleModel> CreateUser(CreateUserModel model, CancellationToken cancellationToken);
     }
 }

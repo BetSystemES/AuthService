@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AuthService.BusinessLogic\AuthService.BusinessLogic.csproj" />
     <ProjectReference Include="..\AuthService.DataAccess\AuthService.DataAccess.csproj" />
   </ItemGroup>
 

@@ -14,8 +14,11 @@ namespace AuthService.BusinessLogic.Contracts.Generators
         /// <typeparam name="TToken">The type of the token.</typeparam>
         /// <param name="user">The user.</param>
         /// <param name="issuedAtUtc">The issued at UTC.</param>
+        /// <param name="roles">The roles.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Generic TToken.</returns>
-        TToken Generate<TToken>(User user, DateTime issuedAtUtc, CancellationToken cancellationToken) where TToken : JwtToken, new();
+        /// <returns>
+        /// Generic TToken.
+        /// </returns>
+        TToken Generate<TToken>(User user, DateTime issuedAtUtc, IEnumerable<Role> roles, CancellationToken cancellationToken) where TToken : JwtToken, new();
     }
 }

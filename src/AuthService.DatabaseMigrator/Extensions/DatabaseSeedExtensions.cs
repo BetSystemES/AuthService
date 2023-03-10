@@ -1,4 +1,6 @@
 ﻿using AuthService.BusinessLogic.Entities;
+using AuthService.BusinessLogic.Extensions;
+using AuthService.BusinessLogic.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,8 +11,8 @@ namespace AuthService.DatabaseMigrator.Extensions
     {
         private static readonly List<Role> _roles = new()
         {
-            new() { Name = "admin" },
-            new() { Name = "moderator" },
+            new() { Name = AuthRole.Admin.GetDescription() },
+            new() { Name = AuthRole.User.GetDescription() },
         };
 
         public static IServiceProvider AddRolesIfNotPresented<TContext>(this IServiceProvider serviceProvider) where TContext : DbContext

@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AuthService.BusinessLogic.Contracts.Worker;
@@ -18,6 +19,7 @@ namespace AuthService.BusinessLogic.Workers
         private readonly JwtConfig _jwtConfig;
 
         private static readonly string _defaultIdFieldName = "id";
+        private static readonly string _defaultRoleFieldName = "id";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JwtWorker"/> class.
@@ -29,14 +31,23 @@ namespace AuthService.BusinessLogic.Workers
         }
 
         /// <inheritdoc/>
-        public string? GenerateToken(User user, DateTime issuedAtUtc, TimeSpan expiresDelayInMinutes, CancellationToken cancellationToken)
+        public string? GenerateToken(User user,
+            DateTime issuedAtUtc,
+            TimeSpan expiresDelayInMinutes,
+            IEnumerable<Role> roles,
+            CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret!);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim(_defaultIdFieldName, user.Id.ToString()) }),
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(_defaultIdFieldName, user.Id.ToString()),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, string.Join(",", roles.Select(x => x.Name)))
+                }),
+                Issuer = _jwtConfig.Issuer,
                 Expires = issuedAtUtc.Add(expiresDelayInMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

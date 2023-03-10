@@ -28,7 +28,7 @@ namespace AuthService.BusinessLogic.Generators
         }
 
         /// <inheritdoc/>
-        public TToken Generate<TToken>(User user, DateTime issuedAtUtc, CancellationToken cancellationToken) where TToken : JwtToken, new()
+        public TToken Generate<TToken>(User user, DateTime issuedAtUtc, IEnumerable<Role> roles, CancellationToken cancellationToken) where TToken : JwtToken, new()
         {
             var expiresAtUtc = typeof(TToken).Name switch
             {
@@ -37,7 +37,7 @@ namespace AuthService.BusinessLogic.Generators
                 _ => throw new InvalidOperationException(nameof(TToken))
             };
 
-            var token = _jwtWorker.GenerateToken(user, issuedAtUtc, TimeSpan.FromMinutes(expiresAtUtc), cancellationToken);
+            var token = _jwtWorker.GenerateToken(user, issuedAtUtc, TimeSpan.FromMinutes(expiresAtUtc), roles, cancellationToken);
             var tokenModel = new TToken()
             {
                 ExpiresAtUtc = issuedAtUtc.AddMinutes(expiresAtUtc),

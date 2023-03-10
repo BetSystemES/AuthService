@@ -37,7 +37,8 @@ namespace AuthService.DataAccess.Extensions
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>()
-                .AddScoped<IUserRepository, UserRepository>();
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IUserRoleRepository, UserRoleRepository>();
 
             return services;
         }
