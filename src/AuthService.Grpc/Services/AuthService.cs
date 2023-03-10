@@ -75,9 +75,9 @@ namespace AuthService.Grpc.Services
         public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;
-
+            var createuserModel = _mapper.Map<CreateUserModel>(request);
             var user = await _userService.CreateUser(
-                _mapper.Map<CreateUserModel>(request),
+                createuserModel,
                 token);
 
             var response = new CreateUserResponse()

@@ -68,13 +68,11 @@ namespace AuthService.BusinessLogic.Services
                 PasswordHash = _hashProvider.Hash(model.Password!),
                 CreatedAtUtc = _dateTimeProvider.NowUtc,
                 UpdatedAtUtc = _dateTimeProvider.NowUtc,
-                UserRole = new List<UserRole>()
             };
-            var roles = await _roleProvider.GetAll(cancellationToken);
-            var userRole = roles.FirstOrDefault(x => x.Name == AuthRole.User.GetDescription());
 
             await _userRepository.Add(user, cancellationToken);
-            await _userRoleRepository.AddToUser(user.Id, userRole.Id);
+            var userRoles = model.RoleIds.Select(x => new UserRole() { RoleId = x, UserId = user.Id });
+            await _userRoleRepository.AddToUser(userRoles);
             await _dataContext.SaveChanges(cancellationToken);
 
             return new UserSimpleModel

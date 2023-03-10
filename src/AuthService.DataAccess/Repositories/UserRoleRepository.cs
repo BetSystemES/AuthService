@@ -12,9 +12,9 @@ namespace AuthService.DataAccess.Repositories
         {
             _entities = entities;
         }
-        public async Task AddToUser(Guid userId, Guid roleId)
+        public async Task AddToUser(IEnumerable<UserRole> items)
         {
-            await _entities.AddAsync(new UserRole {  UserId = userId, RoleId = roleId });
+            await _entities.AddRangeAsync(items);
         }
     }
 }

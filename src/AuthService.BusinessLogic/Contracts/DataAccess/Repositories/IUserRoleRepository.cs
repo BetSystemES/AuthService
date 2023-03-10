@@ -1,4 +1,5 @@
-﻿using AuthService.BusinessLogic.Models.Enums;
+﻿using AuthService.BusinessLogic.Entities;
+using AuthService.BusinessLogic.Models.Enums;
 
 namespace AuthService.BusinessLogic.Contracts.DataAccess.Repositories
 {
@@ -13,6 +14,6 @@ namespace AuthService.BusinessLogic.Contracts.DataAccess.Repositories
         /// <param name="userId">The user identifier.</param>
         /// <param name="role">The role.</param>
         /// <returns></returns>
-        Task AddToUser(Guid userId, Guid roleId);
+        Task AddToUser(IEnumerable<UserRole> items);
     }
 }

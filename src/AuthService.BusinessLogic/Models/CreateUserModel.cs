@@ -36,5 +36,13 @@
         /// The claims.
         /// </value>
         public Dictionary<string, string>? Claims { get; set; }
+
+        /// <summary>
+        /// Gets or sets the role ids.
+        /// </summary>
+        /// <value>
+        /// The role ids.
+        /// </value>
+        public IEnumerable<Guid> RoleIds { get; set; }
     }
 }

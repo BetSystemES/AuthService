@@ -48,7 +48,7 @@ message GetUserResponse {
 message CreateUserRequest {
   string email = 1;
   string password = 2;
-  repeated string roles = 3;
+  repeated string role_ids = 3;
 }
 
 message CreateUserResponse {
