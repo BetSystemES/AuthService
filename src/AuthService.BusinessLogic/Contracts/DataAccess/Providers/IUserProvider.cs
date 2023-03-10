@@ -1,4 +1,4 @@
-﻿using AuthService.BusinessLogic.Models;
+﻿using AuthService.BusinessLogic.Entities;
 
 namespace AuthService.BusinessLogic.Contracts.DataAccess.Providers
 {

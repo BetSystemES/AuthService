@@ -3,6 +3,7 @@ using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
 using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
 using AuthService.BusinessLogic.Contracts.Providers;
 using AuthService.BusinessLogic.Contracts.Services;
+using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
 
 namespace AuthService.BusinessLogic.Services
@@ -89,11 +90,11 @@ namespace AuthService.BusinessLogic.Services
             return user == null
                 ? throw new ApplicationException("User not found")
                 : new UserSimpleModel
-            {
-                Email = user.Email,
-                Id = userId,
-                IsLocked = false
-            };
+                {
+                    Email = user.Email,
+                    Id = userId,
+                    IsLocked = false
+                };
         }
     }
 }

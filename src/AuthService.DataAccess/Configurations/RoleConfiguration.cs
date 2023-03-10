@@ -1,4 +1,4 @@
-﻿using AuthService.BusinessLogic.Models;
+﻿using AuthService.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -7,7 +7,7 @@ namespace AuthService.DataAccess.Configurations
     /// <summary>
     /// Role configuration
     /// </summary>
-    /// <seealso cref="Microsoft.EntityFrameworkCore.IEntityTypeConfiguration&lt;AuthService.BusinessLogic.Models.Role&gt;" />
+    /// <seealso cref="Microsoft.EntityFrameworkCore.IEntityTypeConfiguration&lt;Role&gt;" />
     public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
         /// <summary>

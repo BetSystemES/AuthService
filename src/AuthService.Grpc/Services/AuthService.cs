@@ -5,6 +5,10 @@ using Grpc.Core;
 
 namespace AuthService.Grpc.Services
 {
+    /// <summary>
+    /// Auth grpc service implementation.
+    /// </summary>
+    /// <seealso cref="AuthService.Grpc.AuthService.AuthServiceBase" />
     public class AuthService : Grpc.AuthService.AuthServiceBase
     {
         private readonly IUserService _userService;
@@ -12,6 +16,13 @@ namespace AuthService.Grpc.Services
         private readonly IMapper _mapper;
         private readonly ILogger<AuthService> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthService"/> class.
+        /// </summary>
+        /// <param name="userService">The user service.</param>
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="mapper">The mapper.</param>
+        /// <param name="logger">The logger.</param>
         public AuthService(IUserService userService,
             IAuthService authService,
             IMapper mapper,

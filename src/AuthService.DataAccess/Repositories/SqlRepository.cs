@@ -6,38 +6,21 @@ namespace AuthService.DataAccess.Repositories
     {
         private readonly DbSet<TEntity> _entities;
 
-        private readonly bool _useHiLoGenerators;
-
-        protected SqlRepository(DbSet<TEntity> entities, bool useHiLoGenerators = false)
+        protected SqlRepository(DbSet<TEntity> entities)
         {
             _entities = entities;
-            _useHiLoGenerators = useHiLoGenerators;
         }
 
         public virtual async Task Add(TEntity entity, CancellationToken token)
         {
             ArgumentNullException.ThrowIfNull(entity, "entity");
-            if (_useHiLoGenerators)
-            {
-                await _entities.AddAsync(entity, token);
-            }
-            else
-            {
-                _entities.Add(entity);
-            }
+            await _entities.AddAsync(entity, token);
         }
 
-        public virtual Task AddRange(IEnumerable<TEntity> entities, CancellationToken token)
+        public virtual async Task AddRange(IEnumerable<TEntity> entities, CancellationToken token)
         {
             ArgumentNullException.ThrowIfNull(entities, "entities");
-            var entities2 = (entities as List<TEntity>) ?? entities.ToList();
-            if (_useHiLoGenerators)
-            {
-                return _entities.AddRangeAsync(entities2, token);
-            }
-
-            _entities.AddRange(entities2);
-            return Task.CompletedTask;
+            await _entities.AddRangeAsync(entities, token);
         }
 
         public virtual Task Remove(TEntity entity, CancellationToken token)

@@ -12,6 +12,7 @@
         /// The email.
         /// </value>
         public string? Email { get; set; }
+
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
@@ -19,6 +20,7 @@
         /// The password.
         /// </value>
         public string? Password { get; set; }
+
         /// <summary>
         /// Gets or sets the roles.
         /// </summary>
@@ -26,6 +28,7 @@
         /// The roles.
         /// </value>
         public List<string>? RoleNames { get; set; }
+
         /// <summary>
         /// Gets or sets the claims.
         /// </summary>

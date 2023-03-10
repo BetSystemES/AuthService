@@ -1,18 +1,18 @@
 {
-  "profiles": {
-    "AuthService.Grpc": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+   "profiles": {
+      "AuthService.Grpc": {
+         "commandName": "Project",
+         "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+         },
+         "dotnetRunMessages": true,
+         "applicationUrl": "http://localhost:5199;https://localhost:7260"
       },
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5199;https://localhost:7260"
-    },
-    "Docker": {
-      "commandName": "Docker",
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true,
-      "useSSL": true
-    }
-  }
+      "Docker": {
+         "commandName": "Docker",
+         "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+         "publishAllPorts": true,
+         "useSSL": true
+      }
+   }
 }

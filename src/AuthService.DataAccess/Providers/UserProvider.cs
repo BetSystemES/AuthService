@@ -1,5 +1,5 @@
 ﻿using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
-using AuthService.BusinessLogic.Models;
+using AuthService.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.DataAccess.Providers
@@ -21,12 +21,7 @@ namespace AuthService.DataAccess.Providers
             _entities = entities;
         }
 
-        /// <summary>
-        /// Gets the by identifier.
-        /// </summary>
-        /// <param name="userId">The userId.</param>
-        /// <param name="token">The token.</param>
-        /// <returns>User?</returns>
+        /// <inheritdoc/>
         public Task<User?> GetById(Guid userId, CancellationToken token)
         {
             return _entities
@@ -34,12 +29,7 @@ namespace AuthService.DataAccess.Providers
                     .FirstOrDefaultAsync(x => x.Id == userId, token);
         }
 
-        /// <summary>
-        /// Gets the user by email.
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="token">The token.</param>
-        /// <returns>User?</returns>
+        /// <inheritdoc/>
         public Task<User?> GetUserByEmail(string email, CancellationToken token)
         {
             return string.IsNullOrEmpty(email)
