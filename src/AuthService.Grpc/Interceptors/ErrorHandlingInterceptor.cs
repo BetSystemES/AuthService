@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using AuthService.Grpc.Interceptors.Helpers;
+using Grpc.Core;
 using Grpc.Core.Interceptors;
 
 namespace AuthService.Grpc.Interceptors
@@ -8,6 +9,15 @@ namespace AuthService.Grpc.Interceptors
     /// </summary>
     public class ErrorHandlingInterceptor : Interceptor
     {
+        private readonly ILogger<ErrorHandlingInterceptor> _logger;
+        private readonly Guid _correlationId;
+
+        public ErrorHandlingInterceptor(ILogger<ErrorHandlingInterceptor> logger, Guid correlationId)
+        {
+            _logger = logger;
+            _correlationId = correlationId;
+        }
+
         /// <summary>
         /// Server-side handler for intercepting and incoming unary call.
         /// </summary>
@@ -43,7 +53,7 @@ namespace AuthService.Grpc.Interceptors
             }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger, _correlationId);
             }
         }
 
@@ -84,7 +94,7 @@ namespace AuthService.Grpc.Interceptors
             }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger, _correlationId);
             }
         }
 
@@ -121,7 +131,7 @@ namespace AuthService.Grpc.Interceptors
             }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger, _correlationId);
             }
         }
 
@@ -158,7 +168,7 @@ namespace AuthService.Grpc.Interceptors
             }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger, _correlationId);
             }
         }
     }
