@@ -1,6 +1,7 @@
 ﻿using AuthService.BusinessLogic.Models.AppSettings;
 using AuthService.DataAccess.Extensions;
 using AuthService.Grpc.Infrastructure.Configurations;
+using AuthService.Grpc.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args)
@@ -23,7 +24,11 @@ builder.Services
     .AddInfrastructureServices()
     .AddBusinessLogicServices()
     .AddJwtServices(configuration)
-    .AddGrpc();
+    .AddGrpc(options =>
+    {
+        options.Interceptors.Add<ErrorHandlingInterceptor>();
+        options.Interceptors.Add<ValidationInterceptor>();
+    });
 
 var app = builder.Build();
 
