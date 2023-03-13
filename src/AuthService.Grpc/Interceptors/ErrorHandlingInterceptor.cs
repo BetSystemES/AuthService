@@ -10,12 +10,10 @@ namespace AuthService.Grpc.Interceptors
     public class ErrorHandlingInterceptor : Interceptor
     {
         private readonly ILogger<ErrorHandlingInterceptor> _logger;
-        private readonly Guid _correlationId;
 
-        public ErrorHandlingInterceptor(ILogger<ErrorHandlingInterceptor> logger, Guid correlationId)
+        public ErrorHandlingInterceptor(ILogger<ErrorHandlingInterceptor> logger)
         {
             _logger = logger;
-            _correlationId = correlationId;
         }
 
         /// <summary>
@@ -47,13 +45,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 return await continuation(request, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex.Handle(context, _logger, _correlationId);
+                throw ex.Handle(context, _logger);
             }
         }
 
@@ -88,13 +82,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 return await continuation(requestStream, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex.Handle(context, _logger, _correlationId);
+                throw ex.Handle(context, _logger);
             }
         }
 
@@ -125,13 +115,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 await continuation(request, responseStream, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex.Handle(context, _logger, _correlationId);
+                throw ex.Handle(context, _logger);
             }
         }
 
@@ -162,13 +148,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 await continuation(requestStream, responseStream, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex.Handle(context, _logger, _correlationId);
+                throw ex.Handle(context, _logger);
             }
         }
     }

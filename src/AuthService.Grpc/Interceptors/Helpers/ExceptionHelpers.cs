@@ -1,54 +1,54 @@
-﻿using Grpc.Core;
+﻿using FluentValidation;
+using Grpc.Core;
+using Newtonsoft.Json;
 
 namespace AuthService.Grpc.Interceptors.Helpers
 {
     public static class ExceptionHelpers
     {
-        public static RpcException Handle<T>(this Exception exception, ServerCallContext context, ILogger<T> logger, Guid correlationId)
+        public static RpcException Handle<T>(this Exception exception, ServerCallContext context, ILogger<T> logger)
         {
             return exception switch
             {
-                TimeoutException => HandleTimeoutException((TimeoutException)exception, context, logger, correlationId),
-                RpcException => HandleRpcException((RpcException)exception, logger, correlationId),
-                _ => HandleDefault(exception, context, logger, correlationId)
+                TimeoutException => HandleTimeoutException((TimeoutException)exception, context, logger),
+                RpcException => HandleRpcException((RpcException)exception, logger),
+                ValidationException => HandleValidationException((ValidationException)exception, logger),
+                _ => HandleDefault(exception, context, logger)
             };
         }
 
-        private static RpcException HandleTimeoutException<T>(TimeoutException exception, ServerCallContext context, ILogger<T> logger, Guid correlationId)
+        private static RpcException HandleTimeoutException<T>(TimeoutException exception, ServerCallContext context, ILogger<T> logger)
         {
-            logger.LogError(exception, $"CorrelationId: {correlationId} - A timeout occurred");
+            logger.LogError(exception, $"An error occurred");
 
             var status = new Status(StatusCode.Internal, "An external resource did not answer within the time limit");
 
-            return new RpcException(status, CreateTrailers(correlationId));
+            return new RpcException(status);
         }
 
-        private static RpcException HandleRpcException<T>(RpcException exception, ILogger<T> logger, Guid correlationId)
+        private static RpcException HandleValidationException<T>(ValidationException exception, ILogger<T> logger)
         {
-            logger.LogError(exception, $"CorrelationId: {correlationId} - An error occurred");
-            var trailers = exception.Trailers;
-            trailers.Add(CreateTrailers(correlationId)[0]);
-            return new RpcException(new Status(exception.StatusCode, exception.Message), trailers);
+            logger.LogError(exception, $"An error occurred");
+            var details = exception.Errors.Select(x => new FluentValidationExceptionDetails() { Field = x.PropertyName, Message = x.ErrorMessage });
+            var failureResponse = new FailureResponse(typeof(ValidationException).Name, details);
+
+            var exeptionMessageString = JsonConvert.SerializeObject(failureResponse);
+
+            var status = new Status(StatusCode.Internal, exeptionMessageString);
+
+            return new RpcException(status);
         }
 
-        private static RpcException HandleDefault<T>(Exception exception, ServerCallContext context, ILogger<T> logger, Guid correlationId)
+        private static RpcException HandleRpcException<T>(RpcException exception, ILogger<T> logger)
         {
-            logger.LogError(exception, $"CorrelationId: {correlationId} - An error occurred");
-            return new RpcException(new Status(StatusCode.Internal, exception.Message), CreateTrailers(correlationId));
+            logger.LogError(exception, $"An error occurred");
+            return new RpcException(new Status(exception.StatusCode, exception.Message));
         }
 
-        /// <summary>
-        ///  Adding the correlation to Response Trailers
-        /// </summary>
-        /// <param name="correlationId"></param>
-        /// <returns></returns>
-        private static Metadata CreateTrailers(Guid correlationId)
+        private static RpcException HandleDefault<T>(Exception exception, ServerCallContext context, ILogger<T> logger)
         {
-            var trailers = new Metadata
-            {
-                { "CorrelationId", correlationId.ToString() }
-            };
-            return trailers;
+            logger.LogError(exception, $"An error occurred");
+            return new RpcException(new Status(StatusCode.Internal, exception.Message));
         }
     }
 }
