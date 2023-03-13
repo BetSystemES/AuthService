@@ -1,7 +1,6 @@
 ﻿using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Extensions;
 using AuthService.BusinessLogic.Models.Enums;
-using AuthService.DataAccess.SeedData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,6 +9,12 @@ namespace AuthService.DatabaseMigrator.Extensions
 {
     public static class DatabaseSeedExtensions
     {
+        private static readonly List<Role> _seedRoles = new()
+        {
+            new() { Name = AuthRole.Admin.GetDescription() },
+            new() { Name = AuthRole.User.GetDescription() },
+        };
+
         public static IServiceProvider AddRolesIfNotPresented<TContext>(this IServiceProvider serviceProvider) where TContext : DbContext
         {
             var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
@@ -22,7 +27,7 @@ namespace AuthService.DatabaseMigrator.Extensions
 
                 if (rolesSet.FirstOrDefault() is null)
                 {
-                    rolesSet.AddRange(SeedAuthRoles.Roles);
+                    rolesSet.AddRange(_seedRoles);
 
                     context.SaveChanges();
                 }
