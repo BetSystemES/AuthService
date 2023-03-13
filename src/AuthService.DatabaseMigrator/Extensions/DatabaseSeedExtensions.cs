@@ -9,7 +9,7 @@ namespace AuthService.DatabaseMigrator.Extensions
 {
     public static class DatabaseSeedExtensions
     {
-        private static readonly List<Role> _roles = new()
+        private static readonly List<Role> _seedRoles = new()
         {
             new() { Name = AuthRole.Admin.GetDescription() },
             new() { Name = AuthRole.User.GetDescription() },
@@ -27,7 +27,7 @@ namespace AuthService.DatabaseMigrator.Extensions
 
                 if (rolesSet.FirstOrDefault() is null)
                 {
-                    rolesSet.AddRange(_roles);
+                    rolesSet.AddRange(_seedRoles);
 
                     context.SaveChanges();
                 }

@@ -17,7 +17,8 @@ namespace AuthService.Grpc.Extensions
         {
             var builderOptions = ruleBuilder
                 .NotNull()
-                .NotEmpty();
+                .NotEmpty()
+                .EmailAddress();
 
             return builderOptions;
         }
