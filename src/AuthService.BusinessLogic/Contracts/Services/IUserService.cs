@@ -24,5 +24,13 @@ namespace AuthService.BusinessLogic.Contracts.Services
         /// User simplified model
         /// </returns>
         Task<UserSimpleModel> CreateUser(CreateUserModel model, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Removes the specified user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task Remove(Guid userId, CancellationToken cancellationToken);
     }
 }

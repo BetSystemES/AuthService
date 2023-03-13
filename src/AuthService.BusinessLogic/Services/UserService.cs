@@ -4,10 +4,7 @@ using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
 using AuthService.BusinessLogic.Contracts.Providers;
 using AuthService.BusinessLogic.Contracts.Services;
 using AuthService.BusinessLogic.Entities;
-using AuthService.BusinessLogic.Extensions;
 using AuthService.BusinessLogic.Models;
-using AuthService.BusinessLogic.Models.Enums;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.BusinessLogic.Services
 {
@@ -22,8 +19,6 @@ namespace AuthService.BusinessLogic.Services
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IUserRepository _userRepository;
         private readonly IDataContext _dataContext;
-        private readonly IRoleProvider _roleProvider;
-        private readonly IUserRoleRepository _userRoleRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
@@ -39,9 +34,7 @@ namespace AuthService.BusinessLogic.Services
             IHashProvider hashProvider,
             IDateTimeProvider dateTimeProvider,
             IUserRepository userRepository,
-            IDataContext dataContext,
-            IRoleProvider roleProvider,
-            IUserRoleRepository userRoleRepository
+            IDataContext dataContext
         )
         {
             _userProvider = userProvider;
@@ -49,18 +42,9 @@ namespace AuthService.BusinessLogic.Services
             _dateTimeProvider = dateTimeProvider;
             _userRepository = userRepository;
             _dataContext = dataContext;
-            _roleProvider = roleProvider;
-            _userRoleRepository = userRoleRepository;
         }
 
-        /// <summary>
-        /// Creates the user.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// User simplified model
-        /// </returns>
+        /// <inheritdoc/>
         public async Task<UserSimpleModel> CreateUser(CreateUserModel model, CancellationToken cancellationToken)
         {
             var now = _dateTimeProvider.NowUtc;
@@ -87,15 +71,7 @@ namespace AuthService.BusinessLogic.Services
             };
         }
 
-        /// <summary>
-        /// Gets the user simple model.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="token">The token.</param>
-        /// <returns>
-        /// User simplified model
-        /// </returns>
-        /// <exception cref="System.ApplicationException">User not found</exception>
+        /// <inheritdoc/>
         public async Task<UserSimpleModel> GetUserSimpleModel(Guid userId, CancellationToken token)
         {
             var user = await _userProvider.GetById(userId, token);
@@ -108,6 +84,15 @@ namespace AuthService.BusinessLogic.Services
                     Id = userId,
                     IsLocked = false
                 };
+        }
+
+        /// <inheritdoc/>
+        public async Task Remove(Guid userId, CancellationToken cancellationToken)
+        {
+            var userForDelete = new User() { Id = userId };
+
+            await _userRepository.Remove(userForDelete, cancellationToken);
+            await _dataContext.SaveChanges(cancellationToken);
         }
     }
 }

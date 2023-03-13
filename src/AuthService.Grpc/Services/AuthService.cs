@@ -42,7 +42,7 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>AuthenticateResponse</returns>
+        /// <returns><seealso cref="AuthenticateResponse"/></returns>
         public override async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request, ServerCallContext context)
         {
             var cancellationToken = context.CancellationToken;
@@ -58,7 +58,7 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>RefreshResponse</returns>
+        /// <returns><seealso cref="RefreshResponse"/></returns>
         public override async Task<RefreshResponse> Refresh(RefreshRequest request, ServerCallContext context)
         {
             var cancellationToken = context.CancellationToken;
@@ -74,13 +74,14 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>CreateUserResponse</returns>
+        /// <returns><seealso cref="CreateUserResponse"/></returns>
         public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;
-            var createuserModel = _mapper.Map<CreateUserModel>(request);
+
+            var createUserModel = _mapper.Map<CreateUserModel>(request);
             var user = await _userService.CreateUser(
-                createuserModel,
+                createUserModel,
                 token);
 
             var response = new CreateUserResponse()
@@ -96,26 +97,34 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>GetUserResponse</returns>
+        /// <returns><seealso cref="GetUserResponse"/></returns>
         public override async Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
         {
-            if (!Guid.TryParse(request.UserId, out var userId))
-            {
-                _logger.LogTrace("Invalid UserId: {Id}", request.UserId);
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "UserId should be Guid."));
-            }
-
             var token = context.CancellationToken;
-            var user = await _userService.GetUserSimpleModel(userId, token);
+            var guid = _mapper.Map<Guid>(request.UserId);
+
+            var user = await _userService.GetUserSimpleModel(guid, token);
 
             return new GetUserResponse { User = _mapper.Map<User>(user) };
         }
 
+        /// <summary>
+        /// Delete user by specific identifier.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns><seealso cref="DeleteUserResponse"/></returns>
         public override Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
         {
             return base.DeleteUser(request, context);
         }
 
+        /// <summary>
+        /// Get all roles.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns><seealso cref="GetAllRolesResponse"/></returns>
         public override async Task<GetAllRolesResponse> GetAllRoles(GetAllRolesRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;

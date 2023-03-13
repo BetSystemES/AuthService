@@ -13,7 +13,5 @@ namespace AuthService.BusinessLogic.Contracts.DataAccess.Providers
         /// <param name="token">The token.</param>
         /// <returns>List of roles</returns>
         Task<List<Role>> GetAll(CancellationToken token);
-
-        Task<List<Role>> GetRolesWithIds(IEnumerable<Guid> ids, CancellationToken cancellationToken);
     }
 }

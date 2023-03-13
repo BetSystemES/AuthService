@@ -28,10 +28,5 @@ namespace AuthService.DataAccess.Providers
                 .AsNoTracking()
                 .ToListAsync(token);
         }
-
-        public Task<List<Role>> GetRolesWithIds(IEnumerable<Guid> ids, CancellationToken cancellationToken)
-        {
-            return _entities .AsNoTracking().Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
-        }
     }
 }
