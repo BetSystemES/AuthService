@@ -1,4 +1,5 @@
 ﻿using AuthService.BusinessLogic.Contracts.Services;
+using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
 using AutoMapper;
 using Grpc.Core;
@@ -14,6 +15,7 @@ namespace AuthService.Grpc.Services
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
+        private readonly IRoleService _roleService;
         private readonly ILogger<AuthService> _logger;
 
         /// <summary>
@@ -26,11 +28,13 @@ namespace AuthService.Grpc.Services
         public AuthService(IUserService userService,
             IAuthService authService,
             IMapper mapper,
+            IRoleService roleService,
             ILogger<AuthService> logger)
         {
             _userService = userService;
             _authService = authService;
             _mapper = mapper;
+            _roleService = roleService;
             _logger = logger;
         }
 
@@ -39,7 +43,7 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>AuthenticateResponse</returns>
+        /// <returns><seealso cref="AuthenticateResponse"/></returns>
         public override async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request, ServerCallContext context)
         {
             var cancellationToken = context.CancellationToken;
@@ -55,7 +59,7 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>RefreshResponse</returns>
+        /// <returns><seealso cref="RefreshResponse"/></returns>
         public override async Task<RefreshResponse> Refresh(RefreshRequest request, ServerCallContext context)
         {
             var cancellationToken = context.CancellationToken;
@@ -71,13 +75,14 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>CreateUserResponse</returns>
+        /// <returns><seealso cref="CreateUserResponse"/></returns>
         public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;
 
+            var createUserModel = _mapper.Map<CreateUserModel>(request);
             var user = await _userService.CreateUser(
-                _mapper.Map<CreateUserModel>(request),
+                createUserModel,
                 token);
 
             var response = new CreateUserResponse()
@@ -93,24 +98,51 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns>GetUserResponse</returns>
+        /// <returns><seealso cref="GetUserResponse"/></returns>
         public override async Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
         {
-            if (!Guid.TryParse(request.UserId, out var userId))
-            {
-                _logger.LogTrace("Invalid UserId: {Id}", request.UserId);
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "UserId should be Guid."));
-            }
-
             var token = context.CancellationToken;
-            var user = await _userService.GetUserSimpleModel(userId, token);
+            var guid = _mapper.Map<Guid>(request.UserId);
+
+            var user = await _userService.GetUserSimpleModel(guid, token);
 
             return new GetUserResponse { User = _mapper.Map<User>(user) };
         }
 
-        public override Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
+        /// <summary>
+        /// Delete user by specific identifier.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns><seealso cref="DeleteUserResponse"/></returns>
+        public override async Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
         {
-            return base.DeleteUser(request, context);
+            var token = context.CancellationToken;
+            var guid = _mapper.Map<Guid>(request.UserId);
+
+            await _userService.Remove(guid, token);
+
+            return new DeleteUserResponse {};
+        }
+
+        /// <summary>
+        /// Get all roles.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns><seealso cref="GetAllRolesResponse"/></returns>
+        public override async Task<GetAllRolesResponse> GetAllRoles(GetAllRolesRequest request, ServerCallContext context)
+        {
+            var token = context.CancellationToken;
+
+            var roles = await _roleService.GetAll(token);
+
+            var grpcRoles = _mapper.Map<IEnumerable<Role>>(roles);
+
+            var response = new GetAllRolesResponse();
+            response.Roles.AddRange(grpcRoles);
+
+            return response;
         }
     }
 }

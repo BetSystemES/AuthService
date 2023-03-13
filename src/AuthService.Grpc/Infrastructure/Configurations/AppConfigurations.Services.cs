@@ -28,6 +28,7 @@ namespace AuthService.Grpc.Infrastructure.Configurations
         {
             services.AddScoped<IAuthService, BusinessLogic.Services.AuthService>()
                 .AddScoped<IUserService, UserService>()
+                .AddScoped<IRoleService, RoleService>()
                 .AddSingleton<IHashProvider, HashProvider>()
                 .AddScoped<IDateTimeProvider, DateTimeProvider>();
 
