@@ -1,4 +1,5 @@
 ﻿using AuthService.BusinessLogic.Contracts.Services;
+using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
 using AutoMapper;
 using Grpc.Core;
@@ -114,9 +115,14 @@ namespace AuthService.Grpc.Services
         /// <param name="request"></param>
         /// <param name="context"></param>
         /// <returns><seealso cref="DeleteUserResponse"/></returns>
-        public override Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
+        public override async Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
         {
-            return base.DeleteUser(request, context);
+            var token = context.CancellationToken;
+            var guid = _mapper.Map<Guid>(request.UserId);
+
+            await _userService.Remove(guid, token);
+
+            return new DeleteUserResponse {};
         }
 
         /// <summary>
