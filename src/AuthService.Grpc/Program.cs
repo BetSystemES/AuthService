@@ -23,7 +23,7 @@ builder.Services
     })
     .AddInfrastructureServices()
     .AddBusinessLogicServices()
-    .AddValidators()
+    .AddFluentValidation()
     .AddJwtServices(configuration)
     .AddGrpc(options =>
     {
