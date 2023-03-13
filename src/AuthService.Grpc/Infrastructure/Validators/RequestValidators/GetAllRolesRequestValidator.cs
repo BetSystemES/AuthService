@@ -1,16 +1,18 @@
-﻿namespace AuthService.Grpc.Infrastructure.Validators.RequestValidators
+﻿using FluentValidation;
+
+namespace AuthService.Grpc.Infrastructure.Validators.RequestValidators
 {
     /// <summary>
-    /// Validator for <seealso cref="GetAllRolesRequestValidator"/>
+    /// Validator for <seealso cref="GetAllRolesRequestValidator" />
     /// </summary>
-    public class GetAllRolesRequestValidator
+    /// <seealso cref="FluentValidation.AbstractValidator&lt;AuthService.Grpc.GetAllRolesRequest&gt;" />
+    public class GetAllRolesRequestValidator : AbstractValidator<GetAllRolesRequest>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAllRolesRequestValidator"/> class.
         /// </summary>
         public GetAllRolesRequestValidator()
         {
-            
         }
     }
 }

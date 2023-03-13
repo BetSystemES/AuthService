@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.ObjectiveC;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace AuthService.Grpc.Infrastructure.Validators.RequestValidators
 {
