@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AuthService.Grpc.Interceptors.Models;
+using FluentValidation;
 using Grpc.Core;
 using Newtonsoft.Json;
 
