@@ -8,13 +8,19 @@ namespace AuthService.BusinessLogic.Contracts.Worker
     public interface IJwtWorker
     {
         /// <summary>
-        /// Generages the token.
+        /// Generates the token.
         /// </summary>
         /// <param name="user">The user.</param>
+        /// <param name="issuedAtUtc">The issued at UTC.</param>
         /// <param name="expiresDelayInMinutes">The expires delay in minutes.</param>
+        /// <param name="roles">The roles.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>JWT</returns>
-        string? GenerateToken(User user, DateTime issuedAtUtc, TimeSpan expiresDelayInMinutes, CancellationToken cancellationToken);
+        /// <returns>JWT.</returns>
+        string? GenerateToken(User user,
+            DateTime issuedAtUtc,
+            TimeSpan expiresDelayInMinutes,
+            IEnumerable<Role> roles,
+            CancellationToken cancellationToken);
 
         /// <summary>
         /// Validates jwt.

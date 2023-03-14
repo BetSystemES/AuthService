@@ -12,6 +12,14 @@
         public string Secret { get; set; }
 
         /// <summary>
+        /// Gets or sets the issuer.
+        /// </summary>
+        /// <value>
+        /// The issuer.
+        /// </value>
+        public string Issuer { get; set; }
+
+        /// <summary>
         /// Gets or sets the token lifetime in minutes.
         /// </summary>
         /// <value>

@@ -44,26 +44,23 @@ namespace AuthService.BusinessLogic.Services
             _dataContext = dataContext;
         }
 
-        /// <summary>
-        /// Creates the user.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// User simplified model
-        /// </returns>
+        /// <inheritdoc/>
         public async Task<UserSimpleModel> CreateUser(CreateUserModel model, CancellationToken cancellationToken)
         {
+            var now = _dateTimeProvider.NowUtc;
+
             var user = new User
             {
                 Email = model.Email!,
                 PasswordHash = _hashProvider.Hash(model.Password!),
-                CreatedAtUtc = _dateTimeProvider.NowUtc,
-                UpdatedAtUtc = _dateTimeProvider.NowUtc,
-                UserRole = new List<UserRole>(),
+                CreatedAtUtc = now,
+                UpdatedAtUtc = now,
             };
 
             await _userRepository.Add(user, cancellationToken);
+            user.UserRole.AddRange(model.RoleIds
+                .Select(x => new UserRole() { RoleId = x }));
+
             await _dataContext.SaveChanges(cancellationToken);
 
             return new UserSimpleModel
@@ -74,15 +71,7 @@ namespace AuthService.BusinessLogic.Services
             };
         }
 
-        /// <summary>
-        /// Gets the user simple model.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="token">The token.</param>
-        /// <returns>
-        /// User simplified model
-        /// </returns>
-        /// <exception cref="System.ApplicationException">User not found</exception>
+        /// <inheritdoc/>
         public async Task<UserSimpleModel> GetUserSimpleModel(Guid userId, CancellationToken token)
         {
             var user = await _userProvider.GetById(userId, token);
@@ -95,6 +84,15 @@ namespace AuthService.BusinessLogic.Services
                     Id = userId,
                     IsLocked = false
                 };
+        }
+
+        /// <inheritdoc/>
+        public async Task Remove(Guid userId, CancellationToken cancellationToken)
+        {
+            var userForDelete = new User() { Id = userId };
+
+            await _userRepository.Remove(userForDelete, cancellationToken);
+            await _dataContext.SaveChanges(cancellationToken);
         }
     }
 }

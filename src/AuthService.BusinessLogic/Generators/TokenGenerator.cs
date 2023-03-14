@@ -47,8 +47,8 @@ namespace AuthService.BusinessLogic.Generators
         {
             var userRoles = await _userRolesProvider.GetUserRoles(user.Id, cancellationToken);
             var issuedAtUtc = _dateTimeProvider.NowUtc;
-            var accessToken = _jwtTokenGenerator.Generate<AccessToken>(user, issuedAtUtc, cancellationToken);
-            var refreshToken = _jwtTokenGenerator.Generate<RefreshToken>(user, issuedAtUtc, cancellationToken);
+            var accessToken = _jwtTokenGenerator.Generate<AccessToken>(user, issuedAtUtc, userRoles, cancellationToken);
+            var refreshToken = _jwtTokenGenerator.Generate<RefreshToken>(user, issuedAtUtc, userRoles, cancellationToken);
 
             var userRefreshToken = new UserRefreshToken
             {

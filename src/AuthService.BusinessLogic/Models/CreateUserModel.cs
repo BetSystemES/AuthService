@@ -22,19 +22,11 @@
         public string? Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the roles.
+        /// Gets or sets the role ids.
         /// </summary>
         /// <value>
-        /// The roles.
+        /// The role ids.
         /// </value>
-        public List<string>? RoleNames { get; set; }
-
-        /// <summary>
-        /// Gets or sets the claims.
-        /// </summary>
-        /// <value>
-        /// The claims.
-        /// </value>
-        public Dictionary<string, string>? Claims { get; set; }
+        public IEnumerable<Guid> RoleIds { get; set; }
     }
 }
