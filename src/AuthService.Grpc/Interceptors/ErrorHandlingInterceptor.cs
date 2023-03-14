@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using AuthService.Grpc.Interceptors.Helpers;
+using Grpc.Core;
 using Grpc.Core.Interceptors;
 
 namespace AuthService.Grpc.Interceptors
@@ -8,6 +9,13 @@ namespace AuthService.Grpc.Interceptors
     /// </summary>
     public class ErrorHandlingInterceptor : Interceptor
     {
+        private readonly ILogger<ErrorHandlingInterceptor> _logger;
+
+        public ErrorHandlingInterceptor(ILogger<ErrorHandlingInterceptor> logger)
+        {
+            _logger = logger;
+        }
+
         /// <summary>
         /// Server-side handler for intercepting and incoming unary call.
         /// </summary>
@@ -37,13 +45,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 return await continuation(request, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger);
             }
         }
 
@@ -78,13 +82,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 return await continuation(requestStream, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger);
             }
         }
 
@@ -115,13 +115,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 await continuation(request, responseStream, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger);
             }
         }
 
@@ -152,13 +148,9 @@ namespace AuthService.Grpc.Interceptors
             {
                 await continuation(requestStream, responseStream, context);
             }
-            catch (RpcException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+                throw ex.Handle(context, _logger);
             }
         }
     }
