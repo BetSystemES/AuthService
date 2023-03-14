@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AuthService.Grpc.Interceptors.cov;
+using FluentValidation;
 using Grpc.Core;
 using Newtonsoft.Json;
 
@@ -29,10 +30,20 @@ namespace AuthService.Grpc.Interceptors.Helpers
         private static RpcException HandleValidationException<T>(ValidationException exception, ILogger<T> logger)
         {
             logger.LogError(exception, $"An error occurred");
-            var details = exception.Errors.Select(x => new FluentValidationExceptionDetails() { Field = x.PropertyName, Message = x.ErrorMessage });
+            var details = exception.Errors.Select(x => new FluentValidationExceptionDetails(x.PropertyName, x.ErrorMessage));
             var failureResponse = new FailureResponse(typeof(ValidationException).Name, details);
 
-            var exeptionMessageString = JsonConvert.SerializeObject(failureResponse);
+            var settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+                Converters = new List<JsonConverter>()
+                {
+                    new BaseExceptionDetailConverter(),
+                },
+            };
+
+            var exeptionMessageString = JsonConvert.SerializeObject(failureResponse, Formatting.Indented, settings);
+            var object1 = JsonConvert.DeserializeObject<FailureResponse>(exeptionMessageString, settings);
 
             var status = new Status(StatusCode.Internal, exeptionMessageString);
 
