@@ -1,5 +1,4 @@
-﻿using AuthService.Grpc.Interceptors.cov;
-using FluentValidation;
+﻿using FluentValidation;
 using Grpc.Core;
 using Newtonsoft.Json;
 
