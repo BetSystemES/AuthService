@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\auth_service.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\profile.proto" GrpcServices="Client" />
   </ItemGroup>
 
   <ItemGroup>
