@@ -19,7 +19,7 @@ builder.Services
     .AddPostgresContext(options =>
     {
         var connectionString = configuration.GetConnectionString("AuthDb");
-        options.UseNpgsql(connectionString);
+        options.UseNpgsql(connectionString, options => options.EnableRetryOnFailure(3));
     })
     .AddInfrastructureServices()
     .AddBusinessLogicServices()
