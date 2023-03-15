@@ -3,8 +3,14 @@ using Grpc.Net.Client.Configuration;
 
 namespace AuthService.Grpc.Infrastructure.ConfigurationSettings
 {
+    /// <summary>
+    /// Grpc retry policy configuration.
+    /// </summary>
     public static class GrpcRetryPolicyConfiguration
     {
+        /// <summary>
+        /// The default method configuration
+        /// </summary>
         public static readonly MethodConfig DefaultMethodConfig = new()
         {
             Names = { MethodName.Default },
