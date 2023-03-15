@@ -1,8 +1,6 @@
-﻿using AuthService.BusinessLogic.Models.AppSettings;
-using AuthService.DataAccess.Extensions;
+﻿using AuthService.DataAccess.Extensions;
 using AuthService.Grpc.Infrastructure.Configurations;
 using AuthService.Grpc.Interceptors;
-using AuthService.Grpc.Settings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args)
@@ -10,12 +8,6 @@ var builder = WebApplication.CreateBuilder(args)
     .AddSerilogLogger();
 
 var configuration = builder.Configuration;
-
-builder.Services.Configure<ServiceEndpointsSettings>(
-    builder.Configuration.GetSection("ServiceEndpointsSettings"));
-
-builder.Services.Configure<JwtConfig>(
-    builder.Configuration.GetSection("JwtConfig"));
 
 builder.Services
     .AddProviders()

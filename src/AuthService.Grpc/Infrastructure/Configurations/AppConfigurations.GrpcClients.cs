@@ -1,4 +1,5 @@
 ﻿using AuthService.Grpc.Infrastructure.Configurations;
+using AuthService.Grpc.Infrastructure.ConfigurationSettings;
 using AuthService.Grpc.Settings;
 using Grpc.Core;
 using Grpc.Net.Client.Configuration;
@@ -9,27 +10,6 @@ namespace AuthService.Grpc.Infrastructure.Configurations
 {
     public static partial class AppConfigurations
     {
-        private static readonly MethodConfig _defaultMethodConfig = new()
-        {
-            Names = { MethodName.Default },
-            RetryPolicy = new RetryPolicy
-            {
-                MaxAttempts = 3,
-                InitialBackoff = TimeSpan.FromSeconds(3),
-                MaxBackoff = TimeSpan.FromSeconds(3),
-                BackoffMultiplier = 1,
-                RetryableStatusCodes =
-                {
-                        StatusCode.DeadlineExceeded,
-                        StatusCode.Internal,
-                        StatusCode.NotFound,
-                        StatusCode.ResourceExhausted,
-                        StatusCode.Unavailable,
-                        StatusCode.Unknown
-                }
-            }
-        };
-
         /// <summary>
         /// Adds the GRPC clients.
         /// </summary>
@@ -81,7 +61,7 @@ namespace AuthService.Grpc.Infrastructure.Configurations
                     options.Address = new Uri(endpoint);
                     options.ChannelOptionsActions.Add(options =>
                      {
-                         options.ServiceConfig = new ServiceConfig { MethodConfigs = { _defaultMethodConfig } };
+                         options.ServiceConfig = new ServiceConfig { MethodConfigs = { GrpcRetryPolicyConfiguration.DefaultMethodConfig } };
                      });
                 })
                 .Services;
