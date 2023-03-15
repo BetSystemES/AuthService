@@ -15,10 +15,11 @@ namespace AuthService.Grpc.Infrastructure.Validators.RequestValidators
         public AuthenticateRequestValidator()
         {
             RuleFor(r => r.Password)
-                .MustBeValidPassword();
+                .NotEmpty()
+                .WithMessage("Password is invalid.");
 
             RuleFor(r => r.Email)
-                .MustBeValidEmail()
+                .NotEmpty()
                 .WithMessage($"Email is invalid");
         }
     }

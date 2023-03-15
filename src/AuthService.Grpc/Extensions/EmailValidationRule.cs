@@ -16,8 +16,6 @@ namespace AuthService.Grpc.Extensions
         public static IRuleBuilderOptions<T, string> MustBeValidEmail<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             var builderOptions = ruleBuilder
-                .NotNull()
-                .NotEmpty()
                 .EmailAddress();
 
             return builderOptions;
