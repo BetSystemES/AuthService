@@ -14,7 +14,6 @@ namespace AuthService.Grpc.Infrastructure.Validators.RequestValidators
         public RefreshRequestValidator()
         {
             RuleFor(r => r.RefreshToken)
-                .NotNull()
                 .NotEmpty()
                 .WithMessage($"Refresh token is invalid");
         }
