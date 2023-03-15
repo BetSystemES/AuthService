@@ -15,8 +15,7 @@ namespace AuthService.Grpc.Infrastructure.Validators.RequestValidators
         public CreateUserRequestValidator()
         {
             RuleFor(r => r.Password)
-                .MustBeValidPassword()
-                .WithMessage($"Password is invalid");
+                .MustBeValidPassword();
 
             RuleFor(r => r.Email)
                 .MustBeValidEmail()

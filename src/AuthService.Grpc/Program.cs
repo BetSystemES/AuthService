@@ -11,12 +11,6 @@ var builder = WebApplication.CreateBuilder(args)
 
 var configuration = builder.Configuration;
 
-builder.Services.Configure<ServiceEndpointsSettings>(
-    builder.Configuration.GetSection("ServiceEndpointsSettings"));
-
-builder.Services.Configure<JwtConfig>(
-    builder.Configuration.GetSection("JwtConfig"));
-
 builder.Services
     .AddProviders()
     .AddRepositories()
