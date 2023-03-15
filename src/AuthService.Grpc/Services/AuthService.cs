@@ -1,8 +1,11 @@
 ﻿using AuthService.BusinessLogic.Contracts.Services;
-using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
+using AuthService.Grpc.Extensions;
 using AutoMapper;
 using Grpc.Core;
+using Grpc.Net.ClientFactory;
+using ProfileService.GRPC;
+using static ProfileService.GRPC.ProfileService;
 
 namespace AuthService.Grpc.Services
 {
@@ -16,25 +19,30 @@ namespace AuthService.Grpc.Services
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
         private readonly IRoleService _roleService;
+        private readonly GrpcClientFactory _grpcClientFactory;
         private readonly ILogger<AuthService> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthService"/> class.
+        /// Initializes a new instance of the <see cref="AuthService" /> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
         /// <param name="authService">The authentication service.</param>
         /// <param name="mapper">The mapper.</param>
+        /// <param name="roleService">The role service.</param>
+        /// <param name="grpcClientFactory">The GRPC client factory.</param>
         /// <param name="logger">The logger.</param>
         public AuthService(IUserService userService,
             IAuthService authService,
             IMapper mapper,
             IRoleService roleService,
+            GrpcClientFactory grpcClientFactory,
             ILogger<AuthService> logger)
         {
             _userService = userService;
             _authService = authService;
             _mapper = mapper;
             _roleService = roleService;
+            _grpcClientFactory = grpcClientFactory;
             _logger = logger;
         }
 
@@ -75,7 +83,9 @@ namespace AuthService.Grpc.Services
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="context">The context.</param>
-        /// <returns><seealso cref="CreateUserResponse"/></returns>
+        /// <returns>
+        ///   <seealso cref="CreateUserResponse" />
+        /// </returns>
         public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;
@@ -84,6 +94,18 @@ namespace AuthService.Grpc.Services
             var user = await _userService.CreateUser(
                 createUserModel,
                 token);
+            var profileCleint = _grpcClientFactory.GetGrpcClient<ProfileServiceClient>();
+
+            var addProfileDataRequest = new AddProfileDataRequest()
+            {
+                UserProfile = new UserProfile()
+                {
+                    Email = user.Email,
+                    Id = user.Id.ToString()
+                }
+            };
+
+            await profileCleint.AddProfileDataAsync(addProfileDataRequest);
 
             var response = new CreateUserResponse()
             {
@@ -122,7 +144,7 @@ namespace AuthService.Grpc.Services
 
             await _userService.Remove(guid, token);
 
-            return new DeleteUserResponse {};
+            return new DeleteUserResponse { };
         }
 
         /// <summary>
