@@ -15,8 +15,6 @@ namespace AuthService.Grpc.Interceptors.Helpers
             {
                 TimeoutException => HandleDefault(exception, context, logger, StatusCode.DeadlineExceeded),
                 ValidationException => HandleValidationException((ValidationException)exception, logger),
-                RpcException => HandleDefault(exception, context, logger),
-                DbUpdateException => HandleDefault(exception, context, logger),
                 _ => HandleDefault(exception, context, logger)
             };
         }
@@ -42,7 +40,7 @@ namespace AuthService.Grpc.Interceptors.Helpers
         {
             var exceptionName = exception.GetType().Name;
 
-            var exceptionMessage = exception.GetAllExeptionMessages();
+            var exceptionMessage = exception.GetAllExceptionMessages();
 
             logger.LogError(exception, $"An {exceptionName} occurred, with message={exceptionMessage}");
 

@@ -5,7 +5,7 @@ namespace AuthService.Grpc.Extensions
     /// <summary>
     /// Extensions method for <seealso cref="Exception"/>.
     /// </summary>
-    public static class ExeptionExtensions
+    public static class ExceptionExtensions
     {
         /// <summary>
         /// Gets all exeption messages including inner expetions.
@@ -13,7 +13,7 @@ namespace AuthService.Grpc.Extensions
         /// <param name="ex">The ex.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">ex</exception>
-        public static string GetAllExeptionMessages(this Exception ex)
+        public static string GetAllExceptionMessages(this Exception ex)
         {
             ArgumentNullException.ThrowIfNull(ex, nameof(ex));
 
