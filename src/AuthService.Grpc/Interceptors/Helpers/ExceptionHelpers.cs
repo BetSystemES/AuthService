@@ -2,7 +2,6 @@
 using AuthService.Grpc.Interceptors.Models;
 using FluentValidation;
 using Grpc.Core;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace AuthService.Grpc.Interceptors.Helpers
