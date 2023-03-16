@@ -1,7 +1,7 @@
-﻿using AuthService.Grpc.Interceptors.Models;
+﻿using AuthService.Grpc.Extensions;
+using AuthService.Grpc.Interceptors.Models;
 using FluentValidation;
 using Grpc.Core;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace AuthService.Grpc.Interceptors.Helpers
@@ -12,21 +12,10 @@ namespace AuthService.Grpc.Interceptors.Helpers
         {
             return exception switch
             {
-                TimeoutException => HandleTimeoutException((TimeoutException)exception, context, logger),
-                RpcException => HandleRpcException((RpcException)exception, logger),
+                TimeoutException => HandleDefault(exception, context, logger, StatusCode.DeadlineExceeded),
                 ValidationException => HandleValidationException((ValidationException)exception, logger),
-                DbUpdateException => HandleDbUpdateException((DbUpdateException)exception, logger),
                 _ => HandleDefault(exception, context, logger)
             };
-        }
-
-        private static RpcException HandleTimeoutException<T>(TimeoutException exception, ServerCallContext context, ILogger<T> logger)
-        {
-            logger.LogError(exception, $"An TimeoutException occurred");
-
-            var status = new Status(StatusCode.Internal, "An external resource did not answer within the time limit");
-
-            return new RpcException(status);
         }
 
         private static RpcException HandleValidationException<T>(ValidationException exception, ILogger<T> logger)
@@ -38,49 +27,32 @@ namespace AuthService.Grpc.Interceptors.Helpers
 
             var exeptionMessageString = JsonConvert.SerializeObject(statusMessage, Formatting.Indented);
 
-            var status = new Status(StatusCode.Internal, exeptionMessageString);
+            var status = new Status(StatusCode.InvalidArgument, exeptionMessageString);
 
             return new RpcException(status);
         }
 
-        private static RpcException HandleDbUpdateException<T>(DbUpdateException exception, ILogger<T> logger)
+        private static RpcException HandleDefault<T>(Exception exception,
+            ServerCallContext context,
+            ILogger<T> logger,
+            StatusCode statusCode = StatusCode.Internal)
         {
-            logger.LogError(exception, $"An DbUpdateException occurred, with message={exception.Message}");
+            var exceptionName = exception.GetType().Name;
 
-            var statusMessage = new StatusMessage(typeof(DbUpdateException).Name,
-                new List<GrpcExceptionDetail>()
-                {
-                    new GrpcExceptionDetail(exception.Message)
-                });
+            var exceptionMessage = exception.GetAllExceptionMessages();
 
-            var exeptionMessageString = JsonConvert.SerializeObject(statusMessage, Formatting.Indented);
+            logger.LogError(exception, $"An {exceptionName} occurred, with message={exceptionMessage}");
 
-            var status = new Status(StatusCode.Internal, exeptionMessageString);
+            var statusMessage = new StatusMessage(exceptionName,
+            new List<GrpcExceptionDetail>()
+            {
+                new(exceptionMessage)
+            });
+
+            var exceptionMessageString = JsonConvert.SerializeObject(statusMessage, Formatting.Indented);
+            var status = new Status(statusCode, exceptionMessageString);
 
             return new RpcException(status);
-        }
-
-        private static RpcException HandleRpcException<T>(RpcException exception, ILogger<T> logger)
-        {
-            logger.LogError(exception, $"An RpcException occurred, with message={exception.Message}");
-
-            var statusMessage = new StatusMessage(typeof(RpcException).Name,
-                new List<GrpcExceptionDetail>()
-                {
-                    new GrpcExceptionDetail(exception.Message)
-                });
-
-            var exeptionMessageString = JsonConvert.SerializeObject(statusMessage, Formatting.Indented);
-
-            var status = new Status(StatusCode.Internal, exeptionMessageString);
-
-            return new RpcException(status);
-        }
-
-        private static RpcException HandleDefault<T>(Exception exception, ServerCallContext context, ILogger<T> logger)
-        {
-            logger.LogError(exception, $"An Exception occurred");
-            return new RpcException(new Status(StatusCode.Internal, exception.Message));
         }
     }
 }

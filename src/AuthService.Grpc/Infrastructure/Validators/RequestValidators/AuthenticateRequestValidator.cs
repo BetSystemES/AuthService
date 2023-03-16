@@ -1,5 +1,4 @@
-﻿using AuthService.Grpc.Extensions;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace AuthService.Grpc.Infrastructure.Validators.RequestValidators
 {

@@ -120,7 +120,7 @@ namespace AuthService.Grpc.Services
 
                 _logger.LogTrace("Creation change was canceled for userId={Id}", user.Id);
 
-                throw new RpcException(Status.DefaultCancelled, "An error occured during user creation.");
+                throw new RpcException(Status.DefaultCancelled, "An error occured during ProfielService.AddProfileDataAsync method execution.");
             }
 
             var response = new CreateUserResponse()
@@ -157,9 +157,9 @@ namespace AuthService.Grpc.Services
         {
             var token = context.CancellationToken;
             var userId = _mapper.Map<Guid>(request.UserId);
-            
+
             await _userService.Remove(userId, request.Email, token);
-            
+
             return new DeleteUserResponse { };
         }
 
