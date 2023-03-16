@@ -22,12 +22,9 @@ namespace AuthService.Grpc.Infrastructure.ConfigurationSettings
                 BackoffMultiplier = 1,
                 RetryableStatusCodes =
                 {
-                    StatusCode.DeadlineExceeded,
-                    StatusCode.Internal,
+                    StatusCode.Unauthenticated,
                     StatusCode.NotFound,
-                    StatusCode.ResourceExhausted,
                     StatusCode.Unavailable,
-                    StatusCode.Unknown
                 }
             }
         };
