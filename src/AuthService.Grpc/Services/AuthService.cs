@@ -94,7 +94,8 @@ namespace AuthService.Grpc.Services
             var user = await _userService.CreateUser(
                 createUserModel,
                 token);
-            var profileCleint = _grpcClientFactory.GetGrpcClient<ProfileServiceClient>();
+
+            var profileCient = _grpcClientFactory.GetGrpcClient<ProfileServiceClient>();
 
             var addProfileDataRequest = new AddProfileDataRequest()
             {
@@ -105,7 +106,7 @@ namespace AuthService.Grpc.Services
                 }
             };
 
-            await profileCleint.AddProfileDataAsync(addProfileDataRequest);
+            await profileCient.AddProfileDataAsync(addProfileDataRequest);
 
             var response = new CreateUserResponse()
             {
