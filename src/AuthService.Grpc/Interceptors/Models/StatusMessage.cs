@@ -6,6 +6,18 @@
     public class StatusMessage
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="StatusMessage"/> class.
+        /// </summary>
+        /// <param name="reason">The reason.</param>
+        /// <param name="details">The details.</param>
+        public StatusMessage(string reason, IEnumerable<GrpcExceptionDetail> details)
+        {
+            IsSuccessful = false;
+            Reason = reason;
+            Details = details;
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this instance is successful.
         /// </summary>
         /// <value>
@@ -28,17 +40,5 @@
         /// The details.
         /// </value>
         public IEnumerable<GrpcExceptionDetail> Details { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StatusMessage"/> class.
-        /// </summary>
-        /// <param name="reason">The reason.</param>
-        /// <param name="details">The details.</param>
-        public StatusMessage(string reason, IEnumerable<GrpcExceptionDetail> details)
-        {
-            IsSuccessful = false;
-            Reason = reason;
-            Details = details;
-        }
     }
 }

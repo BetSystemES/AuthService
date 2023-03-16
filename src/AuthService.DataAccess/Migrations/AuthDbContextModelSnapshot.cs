@@ -22,7 +22,7 @@ namespace AuthService.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.Role", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace AuthService.DataAccess.Migrations
                     b.ToTable("Roles", (string)null);
                 });
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.User", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +76,7 @@ namespace AuthService.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.UserRefreshToken", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.UserRefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace AuthService.DataAccess.Migrations
                     b.ToTable("UserRefreshTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.UserRole", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.UserRole", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -117,9 +117,9 @@ namespace AuthService.DataAccess.Migrations
                     b.ToTable("UserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.UserRefreshToken", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.UserRefreshToken", b =>
                 {
-                    b.HasOne("AuthService.BusinessLogic.Models.User", "User")
+                    b.HasOne("AuthService.BusinessLogic.Entities.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -128,15 +128,15 @@ namespace AuthService.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.UserRole", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.UserRole", b =>
                 {
-                    b.HasOne("AuthService.BusinessLogic.Models.Role", "Role")
+                    b.HasOne("AuthService.BusinessLogic.Entities.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AuthService.BusinessLogic.Models.User", "User")
+                    b.HasOne("AuthService.BusinessLogic.Entities.User", "User")
                         .WithMany("UserRole")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -147,12 +147,12 @@ namespace AuthService.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.Role", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("AuthService.BusinessLogic.Models.User", b =>
+            modelBuilder.Entity("AuthService.BusinessLogic.Entities.User", b =>
                 {
                     b.Navigation("RefreshTokens");
 
