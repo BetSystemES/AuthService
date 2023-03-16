@@ -1,4 +1,5 @@
-﻿using AuthService.BusinessLogic.Models;
+﻿using AuthService.BusinessLogic.Entities;
+using AuthService.BusinessLogic.Models;
 
 namespace AuthService.BusinessLogic.Contracts.Services
 {
@@ -21,16 +22,27 @@ namespace AuthService.BusinessLogic.Contracts.Services
         /// <param name="model">The model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// User simplified model
+        /// Created user instance.
         /// </returns>
-        Task<UserSimpleModel> CreateUser(CreateUserModel model, CancellationToken cancellationToken);
+        Task<User> CreateUser(CreateUserModel model, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Removes the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>Task</returns>
+        Task Remove(User user, CancellationToken cancellationToken);
 
         /// <summary>
         /// Removes the specified user.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
+        /// <param name="email">The email.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
-        Task Remove(Guid userId, CancellationToken cancellationToken);
+        /// <returns>
+        /// Task
+        /// </returns>
+        Task Remove(Guid userId, string email, CancellationToken cancellationToken);
     }
 }
