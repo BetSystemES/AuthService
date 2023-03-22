@@ -30,7 +30,7 @@ namespace AuthService.IntegrationTests.DataAccess.Providers
         {
             //Arrange
             var user = await ArrangeUser(true);
-            var expectedResult = await AuthService.Authenticate(user.Email, user.PasswordHash, CancellationToken);
+            var expectedResult = await AuthService.Authenticate(user.Email!, user.PasswordHash!, CancellationToken);
             var refreshToken = expectedResult.AccessToken;
 
             // Act

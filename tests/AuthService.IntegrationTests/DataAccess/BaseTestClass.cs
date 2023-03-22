@@ -69,11 +69,12 @@ namespace AuthService.IntegrationTests.DataAccess
             return user;
         }
 
-        protected static readonly List<Role> SeedRoles = new()
+        protected static readonly List<Role> SeedRoles = GenerateSeedRoles();
+
+        private static List<Role> GenerateSeedRoles()
         {
-            new() { Name = AuthRole.Admin.GetDescription() },
-            new() { Name = AuthRole.User.GetDescription() },
-        };
+            return ((AuthRole[])Enum.GetValues(typeof(AuthRole))).Select(authRole => new Role() { Name = authRole.GetDescription() }).ToList();
+        }
 
         public void Dispose()
         {
