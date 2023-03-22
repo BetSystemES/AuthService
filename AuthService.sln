@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.DataAccess", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Grpc", "src\AuthService.Grpc\AuthService.Grpc.csproj", "{22C26F1E-B1A4-444B-B9A1-876CAD27D1F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.DatabaseMigrator", "src\AuthService.DatabaseMigrator\AuthService.DatabaseMigrator.csproj", "{B2926001-5AB8-4BF8-873E-4359BBFCC2E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.DatabaseMigrator", "src\AuthService.DatabaseMigrator\AuthService.DatabaseMigrator.csproj", "{B2926001-5AB8-4BF8-873E-4359BBFCC2E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.IntegrationTests", "tests\AuthService.IntegrationTests\AuthService.IntegrationTests.csproj", "{79F852F3-D9F3-4274-9835-EF9DA9FAACB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.UnitTests", "AuthService.UnitTests\AuthService.UnitTests.csproj", "{5F35D8D0-C61B-44B9-A03E-975B8A1F746D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5F35D8D0-C61B-44B9-A03E-975B8A1F746D} = {8C7AFC2A-EC11-4E5C-9A31-B25530CFDE95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {994F1C98-4F40-4502-8D58-0961E9834A4F}
