@@ -3,6 +3,8 @@ using AuthService.BusinessLogic.Extensions;
 using AuthService.BusinessLogic.Models.Enums;
 using AuthService.UnitTests.Infrastructure;
 
+using FluentAssertions;
+
 namespace AuthService.UnitTests.Extensions
 {
     [Trait(Constants.Category, Constants.UnitTest)]
@@ -22,9 +24,7 @@ namespace AuthService.UnitTests.Extensions
             var result = role.GetDescription();
 
             // Assert
-            // TODO: please use library FluentAssertion (add it through nuget package)
-            // TODO: example: description.Should().Be(result);
-            Assert.Equal(description, result);
+            result.Should().Be(description);
         }
 
         [Fact]
@@ -34,9 +34,10 @@ namespace AuthService.UnitTests.Extensions
             var role = (AuthRole)3;
 
             // Act
+            Action result = () => role.GetDescription();
+
             // Assert
-            // TODO: please use library FluentAssertion
-            Assert.Throws<ArgumentNullException>(() => role.GetDescription());
+            result.Should().Throw<ArgumentNullException>();
         }
     }
 }
