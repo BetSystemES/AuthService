@@ -1,7 +1,5 @@
-﻿using AuthService.Grpc.Infrastructure.Configurations;
-using AuthService.Grpc.Infrastructure.ConfigurationSettings;
+﻿using AuthService.Grpc.Infrastructure.ConfigurationSettings;
 using AuthService.Grpc.Settings;
-using Grpc.Core;
 using Grpc.Net.Client.Configuration;
 using Microsoft.Extensions.Options;
 using static ProfileService.GRPC.ProfileService;

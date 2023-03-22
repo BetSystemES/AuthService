@@ -45,7 +45,7 @@ namespace AuthService.BusinessLogic.Services
         }
 
         /// <inheritdoc/>
-        public async Task<UserSimpleModel> CreateUser(CreateUserModel model, CancellationToken cancellationToken)
+        public async Task<User> CreateUser(CreateUserModel model, CancellationToken cancellationToken)
         {
             var now = _dateTimeProvider.NowUtc;
 
@@ -63,12 +63,7 @@ namespace AuthService.BusinessLogic.Services
 
             await _dataContext.SaveChanges(cancellationToken);
 
-            return new UserSimpleModel
-            {
-                Email = user.Email,
-                Id = user.Id,
-                IsLocked = user.LockoutEnabled
-            };
+            return user;
         }
 
         /// <inheritdoc/>
@@ -87,11 +82,22 @@ namespace AuthService.BusinessLogic.Services
         }
 
         /// <inheritdoc/>
-        public async Task Remove(Guid userId, CancellationToken cancellationToken)
+        public async Task Remove(User user, CancellationToken cancellationToken)
         {
-            var userForDelete = new User() { Id = userId };
+            await _userRepository.Remove(user, cancellationToken);
+            await _dataContext.SaveChanges(cancellationToken);
+        }
 
-            await _userRepository.Remove(userForDelete, cancellationToken);
+        /// <inheritdoc/>
+        public async Task Remove(Guid userId, string email, CancellationToken cancellationToken)
+        {
+            var user = new User()
+            {
+                Id = userId,
+                Email = email
+            };
+
+            await _userRepository.Remove(user, cancellationToken);
             await _dataContext.SaveChanges(cancellationToken);
         }
     }

@@ -24,8 +24,24 @@ namespace AuthService.Grpc.Infrastructure.Mappings
 
             CreateMap<BusinessModels.Token, Token>()
                 .ReverseMap();
+
             CreateMap<BusinessEntities.User, User>()
-                .ReverseMap();
+                .ForMember(dest => dest.IsLocked,
+                    opt =>
+                        opt.MapFrom(src => src.LockoutEnabled));
+
+            CreateMap<User, BusinessEntities.User>()
+                .ForMember(dest => dest.LockoutEnabled,
+                    opt =>
+                        opt.MapFrom(src => src.IsLocked))
+                .ForMember(x => x.PasswordHash, opt => opt.Ignore())
+                .ForMember(x => x.LockoutEndAtUtc, opt => opt.Ignore())
+                .ForMember(x => x.AccessFailedCount, opt => opt.Ignore())
+                .ForMember(x => x.CreatedAtUtc, opt => opt.Ignore())
+                .ForMember(x => x.UpdatedAtUtc, opt => opt.Ignore())
+                .ForMember(x => x.UserRole, opt => opt.Ignore())
+                .ForMember(x => x.RefreshTokens, opt => opt.Ignore());
+
             CreateMap<CreateUserRequest, CreateUserModel>()
                 .ReverseMap();
             CreateMap<UserSimpleModel, User>()

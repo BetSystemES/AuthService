@@ -86,6 +86,7 @@ namespace AuthService.Grpc.Services
         /// <returns>
         ///   <seealso cref="CreateUserResponse" />
         /// </returns>
+        /// <exception cref="Grpc.Core.RpcException">An error occured during user creation.</exception>
         public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;
@@ -94,7 +95,8 @@ namespace AuthService.Grpc.Services
             var user = await _userService.CreateUser(
                 createUserModel,
                 token);
-            var profileCleint = _grpcClientFactory.GetGrpcClient<ProfileServiceClient>();
+
+            var profileCient = _grpcClientFactory.GetGrpcClient<ProfileServiceClient>();
 
             var addProfileDataRequest = new AddProfileDataRequest()
             {
@@ -105,7 +107,21 @@ namespace AuthService.Grpc.Services
                 }
             };
 
-            await profileCleint.AddProfileDataAsync(addProfileDataRequest);
+            try
+            {
+                await profileCient.AddProfileDataAsync(addProfileDataRequest);
+            }
+            catch (Exception)
+            {
+                _logger.LogError("Error occured during a invoke of AddProfileDataAsync() for userId={Id}, email={Email}",
+                    user.Id, user.Email);
+
+                await _userService.Remove(user, token);
+
+                _logger.LogTrace("Creation change was canceled for userId={Id}", user.Id);
+
+                throw new RpcException(Status.DefaultCancelled, "An error occured during ProfielService.AddProfileDataAsync method execution.");
+            }
 
             var response = new CreateUserResponse()
             {
@@ -140,9 +156,9 @@ namespace AuthService.Grpc.Services
         public override async Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;
-            var guid = _mapper.Map<Guid>(request.UserId);
+            var userId = _mapper.Map<Guid>(request.UserId);
 
-            await _userService.Remove(guid, token);
+            await _userService.Remove(userId, request.Email, token);
 
             return new DeleteUserResponse { };
         }
