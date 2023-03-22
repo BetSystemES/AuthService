@@ -22,6 +22,8 @@ namespace AuthService.UnitTests.Extensions
             var result = role.GetDescription();
 
             // Assert
+            // TODO: please use library FluentAssertion (add it through nuget package)
+            // TODO: example: description.Should().Be(result);
             Assert.Equal(description, result);
         }
 
@@ -33,6 +35,7 @@ namespace AuthService.UnitTests.Extensions
 
             // Act
             // Assert
+            // TODO: please use library FluentAssertion
             Assert.Throws<ArgumentNullException>(() => role.GetDescription());
         }
     }

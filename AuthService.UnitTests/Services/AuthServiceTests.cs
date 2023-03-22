@@ -75,6 +75,7 @@ namespace AuthService.UnitTests.Services
             var result = await _target.Authenticate(It.IsAny<string>(), It.IsAny<CancellationToken>());
 
             // Assert
+            // TODO: please use library FluentAssertion
             Assert.Equal(token, result);
 
             _refreshTokenProvider.Verify(x => x.GetToken(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -103,6 +104,7 @@ namespace AuthService.UnitTests.Services
 
             // Act
             // Assert
+            // TODO: please use library FluentAssertion
             Assert.ThrowsAsync<ApplicationException>(async () => await _target.Authenticate(It.IsAny<string>(), It.IsAny<CancellationToken>()));
         }
 
@@ -138,6 +140,7 @@ namespace AuthService.UnitTests.Services
             var result = await _target.Authenticate(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>());
 
             // Assert
+            // TODO: please use library FluentAssertion
             Assert.Equal(token, result);
 
             _refreshTokenProvider.Verify(x => x.GetByUserId(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -166,6 +169,7 @@ namespace AuthService.UnitTests.Services
 
             // Act
             // Assert
+            // TODO: please use library FluentAssertion
             Assert.ThrowsAsync<ApplicationException>(async () => await _target.Authenticate(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
         }
     }

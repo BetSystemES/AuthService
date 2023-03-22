@@ -100,6 +100,7 @@ namespace AuthService.UnitTests.Services
 
             // Act
             // Assert
+            // TODO: please use library FluentAssertion
             Assert.ThrowsAsync<ApplicationException>(async () => await _target.GetUserSimpleModel(It.IsAny<Guid>(), It.IsAny<CancellationToken>()));
         }
 
