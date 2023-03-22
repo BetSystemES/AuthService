@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using AuthService.BusinessLogic.Entities;
+using Moq;
 using FluentAssertions;
 using AuthService.UnitTests.Infrastructure;
 using AuthService.UnitTests.Infrastructure.Builders;
@@ -72,7 +73,7 @@ namespace AuthService.UnitTests.Services
                 .Build();
 
             // Act
-            await verifier.UserService.Remove(It.IsAny<Guid>(), It.IsAny<CancellationToken>());
+            await verifier.UserService.Remove(It.IsAny<User>(), It.IsAny<CancellationToken>());
 
             // Assert
             verifier
