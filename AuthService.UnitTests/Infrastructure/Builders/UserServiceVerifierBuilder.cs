@@ -19,8 +19,8 @@ namespace AuthService.UnitTests.Infrastructure.Builders
         private readonly Mock<IUserRepository> _userRepository;
         private readonly Mock<IDataContext> _dataContext;
 
-        private CreateUserModel _model;
-        private User _user;
+        private CreateUserModel? _createUserModel;
+        private User? _user;
 
         private readonly UserService _userService;
 
@@ -40,7 +40,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
                 _dataContext.Object);
         }
 
-        public UserServiceVerifierBuilder AddUserServiceCreateUserModel()
+        public UserServiceVerifierBuilder SetUserServiceCreateUserModel()
         {
             var userRoles = Builder<Guid>
                 .CreateListOfSize(3)
@@ -48,7 +48,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
                 .With(_ => Guid.NewGuid())
                 .Build();
 
-            _model = Builder<CreateUserModel>
+            _createUserModel = Builder<CreateUserModel>
                 .CreateNew()
                 .With(x => x.RoleIds = userRoles.ToList())
                 .Build();
@@ -56,7 +56,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
             return this;
         }
 
-        public UserServiceVerifierBuilder AddUserServiceUser()
+        public UserServiceVerifierBuilder SetUserServiceUser()
         {
             _user = Builder<User>
                 .CreateNew()
@@ -74,7 +74,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
                 _userRepository,
                 _dataContext,
                 _userService,
-                _model);
+                _createUserModel!);
         }
 
         public UserServiceVerifierBuilder SetupUserServiceHashProvider()

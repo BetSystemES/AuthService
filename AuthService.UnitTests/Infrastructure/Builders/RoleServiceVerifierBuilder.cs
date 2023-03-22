@@ -11,18 +11,17 @@ namespace AuthService.UnitTests.Infrastructure.Builders
     {
         private readonly Mock<IRoleProvider> _roleProvider;
 
-        private List<Role> _expectedResult;
+        private List<Role>? _expectedResult;
 
         private readonly RoleService _roleService;
 
         public RoleServiceVerifierBuilder()
         {
             _roleProvider = new();
-
             _roleService = new(_roleProvider.Object);
         }
 
-        public RoleServiceVerifierBuilder AddRoleServiceExpectedResult()
+        public RoleServiceVerifierBuilder SetRoleServiceExpectedResult()
         {
             _expectedResult = Builder<Role>
                 .CreateListOfSize(3)

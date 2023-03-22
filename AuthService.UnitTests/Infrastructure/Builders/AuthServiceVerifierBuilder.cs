@@ -21,7 +21,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
         private readonly Mock<IHashProvider> _hashProvider;
         private readonly Mock<ILogger<BusinessLogic.Services.AuthService>> _logger;
 
-        private UserRefreshToken? _userToken;
+        private UserRefreshToken? _userRefreshToken;
         private User? _user;
         private Token? _expectedResult;
 
@@ -45,16 +45,16 @@ namespace AuthService.UnitTests.Infrastructure.Builders
                 _logger.Object);
         }
 
-        public AuthServiceVerifierBuilder AddAuthServiceUserToken()
+        public AuthServiceVerifierBuilder SetAuthServiceUserRefreshToken()
         {
-            _userToken = Builder<UserRefreshToken>
+            _userRefreshToken = Builder<UserRefreshToken>
                 .CreateNew()
                 .Build();
 
             return this;
         }
 
-        public AuthServiceVerifierBuilder AddAuthServiceUser()
+        public AuthServiceVerifierBuilder SetAuthServiceUser()
         {
             _user = Builder<User>
                 .CreateNew()
@@ -63,7 +63,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
             return this;
         }
 
-        public AuthServiceVerifierBuilder AddAuthServiceExpectedResult()
+        public AuthServiceVerifierBuilder SetAuthServiceExpectedResult()
         {
             _expectedResult = Builder<Token>
                 .CreateNew()
@@ -87,7 +87,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
         public AuthServiceVerifierBuilder SetupAuthServiceRefreshTokenProviderGetToken()
         {
             _refreshTokenProvider.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(_userToken)
+                .ReturnsAsync(_userRefreshToken)
                 .Verifiable();
 
             return this;
@@ -122,7 +122,7 @@ namespace AuthService.UnitTests.Infrastructure.Builders
 
         public AuthServiceVerifierBuilder SetupAuthServiceRefreshTokenRepositoryRemove()
         {
-            _refreshTokenRepository.Setup(x => x.Remove(_userToken, It.IsAny<CancellationToken>()))
+            _refreshTokenRepository.Setup(x => x.Remove(_userRefreshToken, It.IsAny<CancellationToken>()))
                 .Verifiable();
 
             return this;

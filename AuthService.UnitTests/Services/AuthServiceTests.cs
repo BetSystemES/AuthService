@@ -13,9 +13,9 @@ namespace AuthService.UnitTests.Services
         {
             // Arrange
             var verifier = new AuthServiceVerifierBuilder()
-                .AddAuthServiceUserToken()
-                .AddAuthServiceUser()
-                .AddAuthServiceExpectedResult()
+                .SetAuthServiceUserRefreshToken()
+                .SetAuthServiceUser()
+                .SetAuthServiceExpectedResult()
                 .SetupAuthServiceRefreshTokenProviderGetToken()
                 .SetupAuthServiceUserProviderGetById()
                 .SetupAuthServiceRefreshTokenRepositoryRemove()
@@ -43,7 +43,7 @@ namespace AuthService.UnitTests.Services
             // Arrange
             var verifier = isUserTokenExists
                 ? new AuthServiceVerifierBuilder()
-                    .AddAuthServiceUserToken()
+                    .SetAuthServiceUserRefreshToken()
                     .SetupAuthServiceRefreshTokenProviderGetToken()
                     .SetupAuthServiceUserProviderGetById()
                     .Build()
@@ -64,8 +64,8 @@ namespace AuthService.UnitTests.Services
         {
             // Arrange
             var verifier = new AuthServiceVerifierBuilder()
-                .AddAuthServiceUser()
-                .AddAuthServiceExpectedResult()
+                .SetAuthServiceUser()
+                .SetAuthServiceExpectedResult()
                 .SetupAuthServiceUserProviderGetUserByEmail()
                 .SetupAuthServiceHashProvider()
                 .SetupAuthServiceRefreshTokenProviderGetByUserId()
@@ -93,7 +93,7 @@ namespace AuthService.UnitTests.Services
             // Arrange
             var verifier = isUserExists
                 ? new AuthServiceVerifierBuilder()
-                    .AddAuthServiceUser()
+                    .SetAuthServiceUser()
                     .SetupAuthServiceUserProviderGetUserByEmail()
                     .SetupAuthServiceHashProvider()
                     .Build()

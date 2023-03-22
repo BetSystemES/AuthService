@@ -13,7 +13,7 @@ namespace AuthService.UnitTests.Services
         {
             // Arrange
             var verifier = new RoleServiceVerifierBuilder()
-                .AddRoleServiceExpectedResult()
+                .SetRoleServiceExpectedResult()
                 .SetupRoleServiceRoleProviderGetAll()
                 .Build();
 

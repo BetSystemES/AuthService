@@ -16,7 +16,7 @@ namespace AuthService.UnitTests.Infrastructure.Verifiers
         private readonly Mock<IRefreshTokenRepository> _refreshTokenRepository;
         private readonly Mock<IHashProvider> _hashProvider;
 
-        public Token? ExpectedResult;
+        public readonly Token? ExpectedResult;
 
         public readonly BusinessLogic.Services.AuthService AuthService;
 

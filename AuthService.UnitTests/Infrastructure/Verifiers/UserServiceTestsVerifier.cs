@@ -17,7 +17,7 @@ namespace AuthService.UnitTests.Infrastructure.Verifiers
         private readonly Mock<IUserRepository> _userRepository;
         private readonly Mock<IDataContext> _dataContext;
 
-        public readonly CreateUserModel Model;
+        public readonly CreateUserModel CreateUserModel;
 
         public readonly UserService UserService;
 
@@ -28,7 +28,7 @@ namespace AuthService.UnitTests.Infrastructure.Verifiers
             Mock<IUserRepository> userRepository,
             Mock<IDataContext> dataContext,
             UserService userService,
-            CreateUserModel model)
+            CreateUserModel createUserModel)
         {
             _userProvider = userProvider;
             _hashProvider = hashProvider;
@@ -36,7 +36,7 @@ namespace AuthService.UnitTests.Infrastructure.Verifiers
             _userRepository = userRepository;
             _dataContext = dataContext;
             UserService = userService;
-            Model = model;
+            CreateUserModel = createUserModel;
         }
 
         public UserServiceTestsVerifier VerifyHashProvider()

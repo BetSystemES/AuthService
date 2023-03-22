@@ -13,14 +13,14 @@ namespace AuthService.UnitTests.Services
         {
             // Arrange
             var verifier = new UserServiceVerifierBuilder()
-                .AddUserServiceCreateUserModel()
+                .SetUserServiceCreateUserModel()
                 .SetupUserServiceHashProvider()
                 .SetupUserServiceUserRepositoryAdd()
                 .SetupUserServiceDataContextSaveChanges()
                 .Build();
 
             // Act
-            await verifier.UserService.CreateUser(verifier.Model, It.IsAny<CancellationToken>());
+            await verifier.UserService.CreateUser(verifier.CreateUserModel, It.IsAny<CancellationToken>());
 
             // Assert
             verifier
@@ -34,7 +34,7 @@ namespace AuthService.UnitTests.Services
         {
             // Arrange
             var verifier = new UserServiceVerifierBuilder()
-                .AddUserServiceUser()
+                .SetUserServiceUser()
                 .SetupUserServiceUserProviderGetById()
                 .Build();
 
