@@ -5,9 +5,9 @@ using AuthService.BusinessLogic.Contracts.DataAccess.Repositories;
 using AuthService.BusinessLogic.Contracts.DataAccess;
 using AuthService.BusinessLogic.Contracts.Providers;
 using AuthService.BusinessLogic.Services;
-using AuthService.UnitTests.Infrastructure.Verifiers;
 using AuthService.BusinessLogic.Models;
 using User = AuthService.BusinessLogic.Entities.User;
+using AuthService.UnitTests.Infrastructure.Verifiers;
 
 namespace AuthService.UnitTests.Infrastructure.Builders
 {
