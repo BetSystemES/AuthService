@@ -1,5 +1,7 @@
 ﻿using AuthService.BusinessLogic.Contracts.DataAccess.Providers;
 using AuthService.BusinessLogic.Entities;
+using AuthService.BusinessLogic.Extensions;
+using AuthService.BusinessLogic.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.DataAccess.Providers
@@ -26,6 +28,14 @@ namespace AuthService.DataAccess.Providers
         {
             return _entities
                 .AsNoTracking()
+                .ToListAsync(token);
+        }
+
+        public Task<List<Role>> GetDefault(CancellationToken token)
+        {
+            return _entities
+                .AsNoTracking()
+                .Where(x=> string.Equals(x.Name, AuthRole.User.GetDescription()))
                 .ToListAsync(token);
         }
     }

@@ -182,5 +182,25 @@ namespace AuthService.Grpc.Services
 
             return response;
         }
+
+        /// <summary>
+        /// Get default roles.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns><seealso cref="GetDefaultRolesResponse>"/></returns>
+        public override async Task<GetDefaultRolesResponse> GetDefaultRoles(GetDefaultRolesRequest request, ServerCallContext context)
+        {
+            var token = context.CancellationToken;
+
+            var roles = await _roleService.GetDefault(token);
+
+            var grpcRoles = _mapper.Map<IEnumerable<Role>>(roles);
+
+            var response = new GetDefaultRolesResponse();
+            response.Roles.AddRange(grpcRoles);
+
+            return response;
+        }
     }
 }

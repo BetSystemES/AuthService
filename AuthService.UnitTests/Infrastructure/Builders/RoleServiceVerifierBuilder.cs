@@ -21,10 +21,10 @@ namespace AuthService.UnitTests.Infrastructure.Builders
             _roleService = new(_roleProvider.Object);
         }
 
-        public RoleServiceVerifierBuilder SetRoleServiceExpectedResult()
+        public RoleServiceVerifierBuilder SetRoleServiceExpectedResult(int size = 3)
         {
             _expectedResult = Builder<Role>
-                .CreateListOfSize(3)
+                .CreateListOfSize(size)
                 .Build()
                 .ToList();
 
@@ -42,6 +42,15 @@ namespace AuthService.UnitTests.Infrastructure.Builders
         public RoleServiceVerifierBuilder SetupRoleServiceRoleProviderGetAll()
         {
             _roleProvider.Setup(x => x.GetAll(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(_expectedResult)
+                .Verifiable();
+
+            return this;
+        }
+
+        public RoleServiceVerifierBuilder SetupRoleServiceRoleProviderGetDefault()
+        {
+            _roleProvider.Setup(x => x.GetDefault(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(_expectedResult)
                 .Verifiable();
 

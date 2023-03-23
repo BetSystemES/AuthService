@@ -26,7 +26,12 @@ namespace AuthService.UnitTests.Infrastructure.Verifiers
         public RoleServiceTestsVerifier VerifyRoleProviderGetAll()
         {
             _roleProvider.Verify(x => x.GetAll(It.IsAny<CancellationToken>()), Times.Once);
+            return this;
+        }
 
+        public RoleServiceTestsVerifier VerifyRoleProviderGetDefault()
+        {
+            _roleProvider.Verify(x => x.GetDefault(It.IsAny<CancellationToken>()), Times.Once);
             return this;
         }
     }

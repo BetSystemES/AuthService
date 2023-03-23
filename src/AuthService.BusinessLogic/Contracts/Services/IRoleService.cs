@@ -13,5 +13,7 @@ namespace AuthService.BusinessLogic.Contracts.Services
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The range of all roles.</returns>
         Task<IEnumerable<Role>> GetAll(CancellationToken cancellationToken);
+
+        Task<IEnumerable<Role>> GetDefault(CancellationToken cancellationToken);
     }
 }

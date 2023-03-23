@@ -26,5 +26,10 @@ namespace AuthService.BusinessLogic.Services
         {
             return await _roleProvider.GetAll(cancellationToken);
         }
+
+        public async Task<IEnumerable<Role>> GetDefault(CancellationToken cancellationToken)
+        {
+            return await _roleProvider.GetDefault(cancellationToken);
+        }
     }
 }
