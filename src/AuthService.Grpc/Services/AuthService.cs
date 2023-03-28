@@ -1,4 +1,5 @@
 ﻿using AuthService.BusinessLogic.Contracts.Services;
+using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
 using AuthService.Grpc.Extensions;
 using AutoMapper;
@@ -156,9 +157,33 @@ namespace AuthService.Grpc.Services
         public override async Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
         {
             var token = context.CancellationToken;
-            var userId = _mapper.Map<Guid>(request.UserId);
 
-            await _userService.Remove(userId, request.Email, token);
+            var userId = request.UserId;
+            var userEmail = request.Email;
+
+            var profileCient = _grpcClientFactory.GetGrpcClient<ProfileServiceClient>();
+
+            var deleteProfileDataRequest = new DeleteProfileDataRequest()
+            {
+                UserProfile = new UserProfile()
+                {
+                    Id = userId,
+                    Email = userEmail
+                }
+            };
+
+            try
+            {
+                await profileCient.DeleteProfileDataAsync(deleteProfileDataRequest);
+            }
+            catch (Exception)
+            {
+                _logger.LogError("Error occured during a invoke of DeleteProfileDataAsync() for userId={Id}, email={Email}", userId, userEmail);
+                throw new RpcException(Status.DefaultCancelled, "An error occured during ProfielService.DeleteProfileDataAsync method execution.");
+            }
+            
+            var userGuid = _mapper.Map<Guid>(request.UserId);
+            await _userService.Remove(userGuid, userEmail, token);
 
             return new DeleteUserResponse { };
         }
