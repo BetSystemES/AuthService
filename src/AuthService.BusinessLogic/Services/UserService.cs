@@ -71,7 +71,7 @@ namespace AuthService.BusinessLogic.Services
         {
             var user = await _userProvider.GetById(userId, token);
 
-            return user == null
+            return user is null
                 ? throw new ApplicationException("User not found")
                 : new UserSimpleModel
                 {

@@ -19,7 +19,7 @@ namespace AuthService.Grpc.Extensions
 
             var sb = new StringBuilder();
 
-            while (ex != null)
+            while (ex is not null)
             {
                 if (!string.IsNullOrEmpty(ex.Message))
                 {
