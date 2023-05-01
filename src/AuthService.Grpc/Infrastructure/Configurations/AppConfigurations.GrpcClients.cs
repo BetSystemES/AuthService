@@ -3,6 +3,7 @@ using AuthService.Grpc.Settings;
 using Grpc.Net.Client.Configuration;
 using Microsoft.Extensions.Options;
 using static ProfileService.GRPC.ProfileService;
+using static CashService.GRPC.CashService;
 
 namespace AuthService.Grpc.Infrastructure.Configurations
 {
@@ -16,6 +17,7 @@ namespace AuthService.Grpc.Infrastructure.Configurations
         public static IServiceCollection AddGrpcClients(this IServiceCollection services)
         {
             services
+                .AddGrpcClient<CashServiceClient>()
                 .AddGrpcClient<ProfileServiceClient>();
 
             return services;

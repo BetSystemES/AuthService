@@ -3,9 +3,11 @@ using AuthService.BusinessLogic.Entities;
 using AuthService.BusinessLogic.Models;
 using AuthService.Grpc.Extensions;
 using AutoMapper;
+using CashService.GRPC;
 using Grpc.Core;
 using Grpc.Net.ClientFactory;
 using ProfileService.GRPC;
+using static CashService.GRPC.CashService;
 using static ProfileService.GRPC.ProfileService;
 
 namespace AuthService.Grpc.Services
@@ -98,6 +100,7 @@ namespace AuthService.Grpc.Services
                 token);
 
             var profileCient = _grpcClientFactory.GetGrpcClient<ProfileServiceClient>();
+            var cashService = _grpcClientFactory.GetGrpcClient<CashServiceClient>();
 
             var addProfileDataRequest = new AddProfileDataRequest()
             {
@@ -107,6 +110,27 @@ namespace AuthService.Grpc.Services
                     Id = user.Id.ToString()
                 }
             };
+
+            var createCashProfile = new CreateCashProfileRequest()
+            {
+                UserId = user.Id.ToString()
+            };
+
+            try
+            {
+                await cashService.CreateCashProfileAsync(createCashProfile);
+            }
+            catch (Exception)
+            {
+                _logger.LogError("Error occured during a invoke of CreateCashProfileAsync() for userId={Id}, email={Email}",
+                    user.Id, user.Email);
+
+                await _userService.Remove(user, token);
+
+                _logger.LogTrace("Creation change was canceled for userId={Id}", user.Id);
+
+                throw new RpcException(Status.DefaultCancelled, "An error occured during CashService.CreateCashProfileAsync method execution.");
+            }
 
             try
             {
